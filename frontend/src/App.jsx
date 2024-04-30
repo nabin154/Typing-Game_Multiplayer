@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import LoginPage from "./pages/Authentication/LoginPage";
 import {Routes, Route , BrowserRouter}  from 'react-router-dom';
+import LoginSignupPage from "./pages/Authentication/LoginSignupPage";
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path={"/"} element={<LoginPage />} />
+          <Route path={"/"} element={<LoginSignupPage />} />
         </Routes>
       </BrowserRouter>
     </>
