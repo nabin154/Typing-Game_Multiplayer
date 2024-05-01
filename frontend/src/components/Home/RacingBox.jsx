@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import RacerUser from './RacerUser'
 
-const RacingBox = ({ startTest, startTimer }) => {
+const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
     const [margin, setMargin] = useState(0);
-    const [seconds, setSeconds] = useState(120);
+    const [seconds, setSeconds] = useState(10);
 
     useEffect(() => {
-        if(startTest && startTimer <= 1 && seconds > 0){
+        if(seconds <= 0 ){
+            setCompleted(true);
+            setSeconds(10);
+            return;
+        }
+         if(startTest && startTimer <= 1 && !completed){
         const intervalId = setInterval(() => {
             setSeconds(prevSeconds => prevSeconds - 1);
         }, 1000);
 
         return () => clearInterval(intervalId);
     }
-    }, [startTest, startTimer]);
+    }, [startTest, startTimer,completed,seconds]);
 
 
     // useEffect(() => {
