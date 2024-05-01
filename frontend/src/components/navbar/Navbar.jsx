@@ -42,7 +42,8 @@ const Navbar = () => {
                         <li className='hover:text-purple-500 flex items-center'> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </li>
                         <li className='hover:text-purple-500 flex items-center'><BsBarChartFill className='mr-2' size={'17px'} />Modes</li>
                         <li className='hover:text-purple-500 flex items-center'><ImStatsDots className='mr-2' size={'17px'} />Stats</li>
-                        <li>  <button className=' bg-rightGradientColor text-4xl text-white'><FiLogOut /></button></li>
+                        <li>  <button
+                                onClick={() => navigate('/')} className=' bg-rightGradientColor text-4xl text-white'><FiLogOut /></button></li>
                     </ul>
                 </div>
             }
