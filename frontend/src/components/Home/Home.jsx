@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { VscDebugStart } from "react-icons/vsc";
+import TypingTest from './TypingTest';
 const Home = () => {
 
     const [testStarted, setTestStarted] = useState(false);
@@ -8,7 +9,7 @@ const Home = () => {
     }
 
     return (
-        <div className='custom-gradient  w-full mt-[1px]' style={{ height: 'calc(100vh - 80px)' }}>
+        <div className='custom-gradient  w-full mt-[1px]' style={{ minHeight: 'calc(100vh - 89px)' }}>
             {!testStarted &&
                 <section className='flex flex-col items-center  h-full w-full'>
                     <header className='mt-32 max-w-2xl p-5'>
@@ -34,9 +35,9 @@ const Home = () => {
             }
 
             {/* Testing started */}
-            <section>
-
-            </section>
+            {testStarted &&
+                <TypingTest/>
+            }
         </div>
     )
 }
