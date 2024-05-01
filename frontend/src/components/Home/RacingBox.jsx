@@ -6,7 +6,7 @@ const RacingBox = ({ startTest, startTimer }) => {
     const [seconds, setSeconds] = useState(120);
 
     useEffect(() => {
-        if(startTest && startTimer <= 1){
+        if(startTest && startTimer <= 1 && seconds > 0){
         const intervalId = setInterval(() => {
             setSeconds(prevSeconds => prevSeconds - 1);
         }, 1000);
@@ -16,18 +16,18 @@ const RacingBox = ({ startTest, startTimer }) => {
     }, [startTest, startTimer]);
 
 
-    useEffect(() => {
-        if (seconds === 0) {
-            timerCallback();
-        }
-    }, [seconds]);
+    // useEffect(() => {
+    //     if (seconds === 0) {
+    //         timerCallback();
+    //     }
+    // }, [seconds]);
 
 
-    const timerCallback = () => {
-        setSeconds(120);
-        window.alert("Timer expired! .");
+    // const timerCallback = () => {
+    //     setSeconds(120);
+    //     window.alert("Timer expired! .");
 
-    };
+    // };
 
 
     const formatTime = (time) => {

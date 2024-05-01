@@ -16,4 +16,16 @@
 .btn{
     @apply px-5 py-2 text-white rounded font-rubik ;
 }
+.normal{
+    @apply text-gray-600
+}
+.bright{
+    @apply text-white
+}
+.correct{
+    @apply text-green-600
+}
+.incorrect{
+    @apply text-red-600
+}
 }
