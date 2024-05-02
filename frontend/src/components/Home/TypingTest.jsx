@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import RacingBox from './RacingBox';
 
 const TypingTest = () => {
+
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
     const [typedText, setTypedText] = useState('');
@@ -9,7 +10,6 @@ const TypingTest = () => {
     const [classType, setClassType] = useState('bright');
     const [completed, setCompleted] = useState(false);
     const [wpm, setWpm] = useState(0);
-    const [startTime, setStartTime] = useState(null);
 
     let paragraph = 'In the heart of a bustling city, amidst the cacophony of honking horns and hurried footsteps, lies a quaint cafe. Its walls adorned with vintage photographs and the aroma of freshly brewed coffee wafting through the air create a haven of tranquility. Patrons, lost in conversation or buried in books, find solace in its cozy embrace. Here, time slows down, and worries dissolve, as each sip brings a moment of respite from the chaos outside.';
 
@@ -32,7 +32,7 @@ const TypingTest = () => {
 
     const calculateWPM = () => {
         const endTime = new Date();
-        const timeInSeconds = (endTime - startTime) / 1000;
+        const timeInSeconds = (endTime - startTestTime) / 1000;
         const wordsTyped = typedText.split(' ').length;
         const timeInMinutes = timeInSeconds / 60;
         const wpmValue = Math.round(wordsTyped / timeInMinutes);
@@ -54,9 +54,7 @@ const TypingTest = () => {
         if (event.key === currentChar) {
             setTypedText(typedText + typedChar);
             setClassType('bright');
-            if (!startTime) {
-                setStartTime(new Date());
-            }
+           
         } else {
             setErrorCount(errorCount + 1);
             setClassType('incorrect');
@@ -82,7 +80,6 @@ const TypingTest = () => {
             setCompleted(true);
             setTypedText('');
             setStartTimer(4);
-            setStartTime(null);
             setWpm(0);
         }
     };

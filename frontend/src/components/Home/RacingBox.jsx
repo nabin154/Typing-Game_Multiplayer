@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import RacerUser from './RacerUser'
 
 const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
-    const [margin, setMargin] = useState(0);
     const [seconds, setSeconds] = useState(10);
+    const [margin , setMargin] = useState(0);
 
     useEffect(() => {
         if(seconds <= 0 ){
@@ -11,14 +11,15 @@ const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
             setSeconds(10);
             return;
         }
-         if(startTest && startTimer <= 1 && !completed){
+         if(startTest && startTimer < 1 && !completed){
+            
         const intervalId = setInterval(() => {
             setSeconds(prevSeconds => prevSeconds - 1);
         }, 1000);
 
         return () => clearInterval(intervalId);
     }
-    }, [startTest, startTimer,completed,seconds]);
+    }, [startTest, startTimer,completed, seconds ]);
 
 
     // useEffect(() => {
@@ -43,14 +44,7 @@ const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
 
 
 
-    const handleClick = () => {
-        if (margin <= 80) {
-            setMargin(margin + 10);
-        }
-        else {
-            setMargin(0)
-        }
-    }
+  
     return (
 
         <main className='flex  flex-col items-center ' >
@@ -62,8 +56,7 @@ const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
                     <RacerUser margin={margin} />
                 </div>
             </div>
-            <button className='mt-20 px-6 py-3 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-lg hover:bg-purple-500'
-                onClick={handleClick}>click</button>
+           
         </main>
 
     )

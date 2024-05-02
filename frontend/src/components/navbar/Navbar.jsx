@@ -21,7 +21,8 @@ const Navbar = () => {
                 </div>
                 <div className={`text-white hidden md:block `}>
                     <ul className=' md:flex gap-10 font-rubik text-lg font-semibold cursor-pointer '>
-                        <li className='hover:text-purple-500 flex items-center'> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </li>
+                        <li className='hover:text-purple-500 '>
+                            <NavLink to={'/stats'} className={'flex items-center'}> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </NavLink></li>
                         <li className='hover:text-purple-500 flex items-center'><BsBarChartFill className='mr-2' size={'17px'} />Modes</li>
                         <li className='hover:text-purple-500 flex items-center'><ImStatsDots className='mr-2' size={'17px'} />Stats</li>
                     </ul>
