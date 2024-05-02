@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import RacingBox from './RacingBox';
+import { useTypingData } from '../../Context/DataProvider';
 
 const TypingTest = () => {
+    const {startTestTime , setStartTestTime , margin , setMargin , seconds, setSeconds} = useTypingData();
 
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
@@ -11,8 +13,8 @@ const TypingTest = () => {
     const [completed, setCompleted] = useState(false);
     const [wpm, setWpm] = useState(0);
 
-    let paragraph = 'In the heart of a bustling city, amidst the cacophony of honking horns and hurried footsteps, lies a quaint cafe. Its walls adorned with vintage photographs and the aroma of freshly brewed coffee wafting through the air create a haven of tranquility. Patrons, lost in conversation or buried in books, find solace in its cozy embrace. Here, time slows down, and worries dissolve, as each sip brings a moment of respite from the chaos outside.';
-
+    // let paragraph = 'In the heart of a bustling city, amidst the cacophony of honking horns and hurried footsteps, lies a quaint cafe. Its walls adorned with vintage photographs and the aroma of freshly brewed coffee wafting through the air create a haven of tranquility. Patrons, lost in conversation or buried in books, find solace in its cozy embrace. Here, time slows down, and worries dissolve, as each sip brings a moment of respite from the chaos outside.';
+    let paragraph = "The wind whispered through the trees, carrying with it the scent of blooming flowers. The river flowed gently, its waters shimmering in the sunlight. Birds soared high above, their wings outstretched against the endless blue sky. Nature hummed with life, a symphony of sights and sounds that filled the air with wonder. In this tranquil moment, all worries melted away, replaced by a deep sense of peace and contentment. It was a reminder of the beauty that surrounded us, a reminder to cherish each fleeting moment. It was a play."
     useEffect(() => {
         if (startTest && startTimer > 0) {
             const timer = setTimeout(() => {
@@ -29,6 +31,13 @@ const TypingTest = () => {
             window.alert('completed');
         }
     }, [completed]);
+
+
+    useEffect(() => {
+       
+    }, [typedText, margin]);
+
+
 
     const calculateWPM = () => {
         const endTime = new Date();
@@ -54,12 +63,23 @@ const TypingTest = () => {
         if (event.key === currentChar) {
             setTypedText(typedText + typedChar);
             setClassType('bright');
+            if (!startTestTime) {
+                setStartTestTime(new Date());
+            }
            
         } else {
             setErrorCount(errorCount + 1);
             setClassType('incorrect');
         }
+        let length = typedText.split(' ').length;
+        console.log(length%10);
+        if (typedChar === ' ' && (length % 2) === 0 && margin < 90) {
+            setMargin(prevMargin => prevMargin + 2);
+            return
+        }
+
     };
+
 
     const renderParagraph = (text) => {
         return text.split('').map((letter, index) => {
@@ -80,7 +100,10 @@ const TypingTest = () => {
             setCompleted(true);
             setTypedText('');
             setStartTimer(4);
+            setStartTestTime(null);
             setWpm(0);
+            setMargin(0);
+            setSeconds(120);
         }
     };
 
@@ -96,8 +119,9 @@ const TypingTest = () => {
                         onClick={handleStart}>{!startTest ? 'Start Now' : 'Retry'}</button>
                 </div>
                 <div className='flex gap-6 px-14 items-center'>
-                    <h3 className='text-2xl font-rubik font-semibold text-red-600'>Errors: {errorCount}</h3>
-                    <h3 className='text-2xl font-rubik font-semibold text-green-600'>WPM: {wpm}</h3>
+                    <h3 className='text-2xl font-rubik font-semibold text-red-600'>Errors : {errorCount}</h3>
+                    <h3 className='text-2xl font-rubik font-semibold text-white'>Wpm : <span className='text-green-500'>
+                        {wpm}</span> </h3>
                 </div>
             </section>
             <section className='h-full w-full hidden md:block'>

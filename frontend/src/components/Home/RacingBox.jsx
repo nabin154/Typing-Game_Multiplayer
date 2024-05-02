@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import RacerUser from './RacerUser'
+import { useTypingData } from '../../Context/DataProvider';
 
 const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
-    const [seconds, setSeconds] = useState(10);
-    const [margin , setMargin] = useState(0);
+    const {margin , setMargin , seconds ,setSeconds} = useTypingData();
 
     useEffect(() => {
         if(seconds <= 0 ){
@@ -51,9 +51,8 @@ const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
             <div className=' shadow-sm shadow-white p-4 mt-6 rounded-lg relative border'>
                 <h2 className='text-center text-lg font-rubik text-white font-semibold '>Type the text below</h2>
                 <p className={`absolute right-2 top-0 ${seconds < 10 ? 'text-red-600' : 'text-purple-500'} font-semibold`}>{formatTime(seconds)}</p>
-                <div className=' h-[200px] w-96 max-w-96 mt-3 bg-rightGradientColor flex items-center flex-col rounded-xl '>
-                    {/*/ todo : send user image as props*/}
-                    <RacerUser margin={margin} />
+                <div className=' h-[200px] w-[350px] max-w-96 mt-3 bg-rightGradientColor flex items-center flex-col rounded-xl '>
+                    <RacerUser  />
                 </div>
             </div>
            
