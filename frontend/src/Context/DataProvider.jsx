@@ -3,9 +3,11 @@ import React, { Children, createContext, useContext, useState } from 'react'
 const typingContext = createContext();
 
 const DataProvider = ({children}) => {
+  
   const [startTestTime , setStartTestTime] = useState(null);
   const [margin , setMargin] = useState(0);
   const [seconds, setSeconds] = useState(120);
+  const [difficultyMode , setDifficultyMode] = useState('easy');
 
 
 
@@ -16,7 +18,9 @@ const DataProvider = ({children}) => {
       margin,
       setMargin,
       seconds,
-      setSeconds
+      setSeconds,
+      difficultyMode,
+      setDifficultyMode
     }}>
       {children}
     </typingContext.Provider>

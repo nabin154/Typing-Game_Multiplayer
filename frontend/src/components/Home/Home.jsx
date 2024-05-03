@@ -9,7 +9,7 @@ const Home = () => {
     }
 
     return (
-        <div className='custom-gradient  w-full mt-[1px]' style={{ minHeight: 'calc(100vh - 89px)' }}>
+        <div className='custom-gradient  w-full mt-[1px]' style={{ minHeight: 'calc(100vh - 80px)' }}>
             {!testStarted &&
                 <section className='flex flex-col items-center  h-full w-full'>
                     <header className='mt-32 max-w-2xl p-5'>
@@ -25,7 +25,7 @@ const Home = () => {
 
                     <main>
                         <div>
-                            <button className='mt-20 px-6 py-3 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-lg hover:bg-purple-500'
+                            <button className='mt-8 sm:mt-14 md:mt-20 px-4 py-2 md:px-6 md:py-3 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md md:text-lg hover:bg-purple-500'
                                 onClick={handleTestStart}>Start Your Test <VscDebugStart size={'21px'} className='ml-2' /></button>
                         </div>
                     </main>
