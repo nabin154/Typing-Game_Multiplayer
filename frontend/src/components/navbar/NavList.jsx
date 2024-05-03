@@ -11,9 +11,10 @@ const NavList = ({ className, isMenuToggled }) => {
     return (
         <ul className={className}>
             <li className='hover:text-purple-500 '>
-                <NavLink to={'/stats'} className={'flex items-center'}> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </NavLink></li>
+                <NavLink to={'/'} className={'flex items-center'}> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </NavLink></li>
             <li className='hover:text-purple-500 flex items-center'><BsBarChartFill className='mr-2' size={'17px'} />Modes</li>
-            <li className='hover:text-purple-500 flex items-center'><ImStatsDots className='mr-2' size={'17px'} />Stats</li>
+            <li>
+                <NavLink to={'/stats'} className={'hover:text-purple-500 flex items-center'}><ImStatsDots className='mr-2' size={'17px'} />Stats</NavLink></li>
             {isMenuToggled &&
                 <button
                     onClick={() => navigate('/')}

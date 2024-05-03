@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { FiLogOut, FiMenu } from "react-icons/fi";
+import logo from '../../assets/logo.png'
 import NavList from './NavList';
 
 const Navbar = () => {
@@ -15,7 +16,7 @@ const Navbar = () => {
             <header className='px-6 md:px-14 flex items-center justify-between'>
                 <div>
                     <NavLink to={'/home'}>
-                        <img src="/logo.png" alt="logo" className=' h-12 w-12 md:h-16 md:w-16' />
+                        <img src={logo} alt="logo" className=' h-12 w-12 md:h-16 md:w-16' />
                     </NavLink>
                 </div>
                 <div className={`text-white hidden md:block `}>

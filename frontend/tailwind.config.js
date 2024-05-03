@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        sm: '480px',
+        md: '788px',
+        lg: '976px',
+        xl: '1440px',
+      },
       colors:{
         leftGradientColor : '#000000',
         rightGradientColor : '#130F40'

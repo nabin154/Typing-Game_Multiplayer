@@ -34,7 +34,7 @@ const Home = () => {
 
             }
 
-            {/* Testing started */}
+            {/* Test started */}
             {testStarted &&
                 <TypingTest/>
             }
