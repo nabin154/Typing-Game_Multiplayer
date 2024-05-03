@@ -3,8 +3,7 @@ import RacingBox from './RacingBox';
 import { useTypingData } from '../../Context/DataProvider';
 
 const TypingTest = () => {
-    const {startTestTime , setStartTestTime , margin , setMargin , seconds, setSeconds} = useTypingData();
-
+    const { startTestTime, setStartTestTime, margin, setMargin, seconds, setSeconds } = useTypingData();
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
     const [typedText, setTypedText] = useState('');
@@ -15,6 +14,8 @@ const TypingTest = () => {
 
     // let paragraph = 'In the heart of a bustling city, amidst the cacophony of honking horns and hurried footsteps, lies a quaint cafe. Its walls adorned with vintage photographs and the aroma of freshly brewed coffee wafting through the air create a haven of tranquility. Patrons, lost in conversation or buried in books, find solace in its cozy embrace. Here, time slows down, and worries dissolve, as each sip brings a moment of respite from the chaos outside.';
     let paragraph = "The wind whispered through the trees, carrying with it the scent of blooming flowers. The river flowed gently, its waters shimmering in the sunlight. Birds soared high above, their wings outstretched against the endless blue sky. Nature hummed with life, a symphony of sights and sounds that filled the air with wonder. In this tranquil moment, all worries melted away, replaced by a deep sense of peace and contentment. It was a reminder of the beauty that surrounded us, a reminder to cherish each fleeting moment. It was a play."
+   
+   //CountDown Timer when start button is clicked
     useEffect(() => {
         if (startTest && startTimer > 0) {
             const timer = setTimeout(() => {
@@ -25,6 +26,8 @@ const TypingTest = () => {
         }
     }, [startTest, startTimer]);
 
+
+    // after completion rendering
     useEffect(() => {
         if (completed) {
             calculateWPM();
@@ -33,12 +36,9 @@ const TypingTest = () => {
     }, [completed]);
 
 
-    useEffect(() => {
-       
-    }, [typedText, margin]);
+   
 
-
-
+//calculating the words per minutes
     const calculateWPM = () => {
         const endTime = new Date();
         const timeInSeconds = (endTime - startTestTime) / 1000;
@@ -49,6 +49,7 @@ const TypingTest = () => {
     };
 
 
+    //main function for typing test
     const handleTyping = (event) => {
         if (!startTest || startTimer >= 1 || completed) return;
 
@@ -66,13 +67,14 @@ const TypingTest = () => {
             if (!startTestTime) {
                 setStartTestTime(new Date());
             }
-           
+
         } else {
             setErrorCount(errorCount + 1);
             setClassType('incorrect');
         }
+
+        // To make the racer user to move in racing box
         let length = typedText.split(' ').length;
-        console.log(length%10);
         if (typedChar === ' ' && (length % 2) === 0 && margin < 90) {
             setMargin(prevMargin => prevMargin + 2);
             return
@@ -80,7 +82,7 @@ const TypingTest = () => {
 
     };
 
-
+  // spliting the each letters and adding them to span tag
     const renderParagraph = (text) => {
         return text.split('').map((letter, index) => {
             let className = index === typedText.length ? classType : 'normal';
@@ -91,6 +93,8 @@ const TypingTest = () => {
         });
     };
 
+
+    //function to start and reset typing
     const handleStart = () => {
         setStartTest(!startTest);
         setCompleted(false);

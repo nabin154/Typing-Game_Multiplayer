@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { FiLogOut, FiMenu } from "react-icons/fi";
-import { GiPlayerTime } from "react-icons/gi";
-import { BsBarChartFill } from "react-icons/bs";
-import { ImStatsDots } from "react-icons/im";
+import NavList from './NavList';
 
 const Navbar = () => {
+    
     const navigate = useNavigate();
     const [isMenuToggled, setIsMenuToggled] = useState(false);
     const handleToogle = () => {
@@ -20,12 +19,9 @@ const Navbar = () => {
                     </NavLink>
                 </div>
                 <div className={`text-white hidden md:block `}>
-                    <ul className=' md:flex gap-10 font-rubik text-lg font-semibold cursor-pointer '>
-                        <li className='hover:text-purple-500 '>
-                            <NavLink to={'/stats'} className={'flex items-center'}> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </NavLink></li>
-                        <li className='hover:text-purple-500 flex items-center'><BsBarChartFill className='mr-2' size={'17px'} />Modes</li>
-                        <li className='hover:text-purple-500 flex items-center'><ImStatsDots className='mr-2' size={'17px'} />Stats</li>
-                    </ul>
+                    <NavList className={'md:flex gap-10 font-rubik text-lg font-semibold cursor-pointer'}
+                        isMenuToggled={isMenuToggled} />
+
                 </div>
 
                 <button onClick={handleToogle} className='bg-rightGradientColor text-3xl text-white md:hidden'><FiMenu /></button>
@@ -36,16 +32,10 @@ const Navbar = () => {
 
             </header>
 
-            {
-                isMenuToggled &&
+            {isMenuToggled &&
                 <div>
-                    <ul className='flex flex-col items-center text-white gap-6 font-rubik text-lg font-semibold cursor-pointer '>
-                        <li className='hover:text-purple-500 flex items-center'> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </li>
-                        <li className='hover:text-purple-500 flex items-center'><BsBarChartFill className='mr-2' size={'17px'} />Modes</li>
-                        <li className='hover:text-purple-500 flex items-center'><ImStatsDots className='mr-2' size={'17px'} />Stats</li>
-                        <li>  <button
-                                onClick={() => navigate('/')} className=' bg-rightGradientColor text-4xl text-white'><FiLogOut /></button></li>
-                    </ul>
+                    <NavList className={'flex flex-col items-center text-white gap-6 font-rubik text-lg font-semibold cursor-pointer '}
+                        isMenuToggled={isMenuToggled} />
                 </div>
             }
         </div>

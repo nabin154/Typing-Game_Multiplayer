@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react'
 import RacerUser from './RacerUser'
 import { useTypingData } from '../../Context/DataProvider';
 
-const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
-    const {margin , setMargin , seconds ,setSeconds} = useTypingData();
+const RacingBox = ({ startTest, startTimer, completed, setCompleted }) => {
+    const { seconds, setSeconds } = useTypingData();
 
+//Timer for the typing : time
     useEffect(() => {
-        if(seconds <= 0 ){
+        if (seconds <= 0) {
             setCompleted(true);
             setSeconds(10);
             return;
         }
-         if(startTest && startTimer < 1 && !completed){
-            
-        const intervalId = setInterval(() => {
-            setSeconds(prevSeconds => prevSeconds - 1);
-        }, 1000);
+        if (startTest && startTimer < 1 && !completed) {
 
-        return () => clearInterval(intervalId);
-    }
-    }, [startTest, startTimer,completed, seconds ]);
+            const intervalId = setInterval(() => {
+                setSeconds(prevSeconds => prevSeconds - 1);
+            }, 1000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [startTest, startTimer, completed, seconds]);
 
 
     // useEffect(() => {
@@ -35,7 +36,7 @@ const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
 
     // };
 
-
+//formating the time to display
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
@@ -44,7 +45,7 @@ const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
 
 
 
-  
+
     return (
 
         <main className='flex  flex-col items-center ' >
@@ -52,10 +53,10 @@ const RacingBox = ({ startTest, startTimer ,completed, setCompleted }) => {
                 <h2 className='text-center text-lg font-rubik text-white font-semibold '>Type the text below</h2>
                 <p className={`absolute right-2 top-0 ${seconds < 10 ? 'text-red-600' : 'text-purple-500'} font-semibold`}>{formatTime(seconds)}</p>
                 <div className=' h-[200px] w-[350px] max-w-96 mt-3 bg-rightGradientColor flex items-center flex-col rounded-xl '>
-                    <RacerUser  />
+                    <RacerUser />
                 </div>
             </div>
-           
+
         </main>
 
     )
