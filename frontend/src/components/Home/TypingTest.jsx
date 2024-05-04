@@ -159,7 +159,7 @@ const TypingTest = () => {
             <section>
                 <CompletedModal
                 completed={completed}
-                    handleClose={handleClose}
+                handleClose={handleClose}
                 wpm={wpm}
                 timeTaken={timeTaken}
                 errorCount={errorCount}/>

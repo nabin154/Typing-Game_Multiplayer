@@ -6,7 +6,7 @@ const DataProvider = ({children}) => {
   
   const [startTestTime , setStartTestTime] = useState(null);
   const [margin , setMargin] = useState(0);
-  const [seconds, setSeconds] = useState(120);
+  const [seconds, setSeconds] = useState(10);
   const [difficultyMode , setDifficultyMode] = useState('easy');
 
 

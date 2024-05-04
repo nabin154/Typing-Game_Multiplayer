@@ -47,7 +47,7 @@ const Form = () => {
               <input type="password" className='w-56  sm:w-72 p-2  mt-2 bg-rightGradientColor border-b border-purple-400 focus:outline-none text-white' placeholder='Enter your password' />
             </div>
 
-            <button type='submit' className='border px-8 rounded-md shadow-lg tracking-wide bg-purple-600 text-md font-semibold py-1 border-none text-white '>SUBMIT</button>
+            <button type='submit' className='border px-8 rounded-md shadow-lg tracking-wide bg-purple-600 text-md font-semibold py-1 border-none text-white hover:bg-purple-800'>SUBMIT</button>
 
             <span className='text-white underline cursor-pointer' onClick={() => setIsSignUp(!isSignupPage)}>{isSignupPage ? "Already have an account?" : "Don't have an account?"}</span>
           </div>
@@ -56,7 +56,7 @@ const Form = () => {
         <div className='ml-10'>
           <h3 className='text-xl text-purple-500 text-center '> Or</h3>
 
-          <button className='bg-white text-black ml-4 px-3 p-2 text-center flex items-center rounded-md font-rubik mt-4'><span className='mr-1'>Login with Google</span> <FcGoogle /></button>
+          <button className='bg-white text-black ml-4 px-3 p-2 text-center flex items-center rounded-md font-rubik mt-4 '><span className='mr-1'>Login with Google</span> <FcGoogle /></button>
 
           <h3 className='text-xl mt-3 text-purple-500 text-center '> Or</h3>
 
