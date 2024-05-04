@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import RacingBox from './RacingBox';
 import { useTypingData } from '../../Context/DataProvider';
+import { useToast } from '../../Context/ToastProvider';
 
 const TypingTest = () => {
     const { startTestTime, setStartTestTime, margin, setMargin, seconds, setSeconds } = useTypingData();
+    const { showToast } = useToast(); 
+    
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
     const [typedText, setTypedText] = useState('');
@@ -31,7 +34,7 @@ const TypingTest = () => {
     useEffect(() => {
         if (completed) {
             calculateWPM();
-            window.alert('completed');
+            showToast("Completed Test!", 'success', 2000);
         }
     }, [completed]);
 

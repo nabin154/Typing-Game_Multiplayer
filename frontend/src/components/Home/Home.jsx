@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { VscDebugStart } from "react-icons/vsc";
 import TypingTest from './TypingTest';
+
 const Home = () => {
 
     const [testStarted, setTestStarted] = useState(false);
+   
     const handleTestStart = () => {
         setTestStarted(true);
+
     }
 
     return (
