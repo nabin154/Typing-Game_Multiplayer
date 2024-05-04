@@ -6,6 +6,7 @@ import HomePage from "./pages/Home/HomePage";
 import StatsPage from "./pages/stats/StatsPage";
 import ToastProvider from "./Context/ToastProvider";
 import Toast from "./components/UI/Toast";
+import Loader from "./components/UI/Loader";
 
 
 function App() {

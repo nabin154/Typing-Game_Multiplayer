@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { FiLogOut } from "react-icons/fi";
 import { GiPlayerTime } from "react-icons/gi";
 import { ImStatsDots } from "react-icons/im";
@@ -7,6 +7,7 @@ import ModesModal from '../Modal/ModesModal';
 
 
 const NavList = ({ className, isMenuToggled }) => {
+    const navigate = useNavigate();
 
     return (
         <ul className={className}>

@@ -23,7 +23,7 @@ const Toast = () => {
             {show && (
                 <div className={`absolute top-0 left-[44%]  shadow-md rounded-md text-white ${type}`}>
                     <button className='absolute top-0 right-0' onClick={handleClick}><MdCancel /></button>
-                    <div className='flex gap-4 items-center px-7 py-2 text-xl'>
+                    <div className='flex gap-4 items-center px-4 py-1 md:px-5 md:py-1 lg:px-7 lg:py-2 text-xl'>
                         <AiFillAlert />{message}</div>
                 </div>
             )} 

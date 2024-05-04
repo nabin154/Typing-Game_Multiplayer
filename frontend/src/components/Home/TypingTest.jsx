@@ -120,7 +120,6 @@ const TypingTest = () => {
 
     const handleClose = ()=>{
         setCompleted(false);
-
         setStartTest(false);
         setClassType('bright');
         setErrorCount(0);

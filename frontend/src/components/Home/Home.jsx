@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { VscDebugStart } from "react-icons/vsc";
 import TypingTest from './TypingTest';
+import Loader from '../UI/Loader';
 
 const Home = () => {
 
@@ -13,6 +14,7 @@ const Home = () => {
 
     return (
         <div className='custom-gradient  w-full mt-[1px]' style={{ minHeight: 'calc(100vh - 80px)' }}>
+            <Loader />
             {!testStarted &&
                 <section className='flex flex-col items-center  h-full w-full'>
                     <header className='mt-32 max-w-2xl p-5'>
