@@ -75,7 +75,7 @@ const getGraphData = asyncHandler(async (req, res) => {
 const getAllstats = asyncHandler(async (req ,res)=>{
     const {userId} = req.params;
 try {
-    const allData = await Stats.find({userId : userId});
+    const allData = await Stats.find({userId : userId}).sort({updatedAt : -1});
     if(allData){
         res.status(200).json(successResponse('Data Found Successfully !', allData));
     }else{
