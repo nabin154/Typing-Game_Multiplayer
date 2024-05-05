@@ -5,7 +5,7 @@ const colors = require('colors');
 const { PORT, REACT_APP_URL } = require("./utils/envData");
 const connectDB = require("./utils/dbSetup");
 const authRoutes = require("./routes/authRoutes");
-const { errorHandler } = require("./middlewares/errorMiddleware");
+const { errorHandler, routeNotFound } = require("./middlewares/errorMiddleware");
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -25,6 +25,7 @@ app.get('/' , (req, res)=>{
 app.use('/api/auth', authRoutes);
 
 
+app.use(routeNotFound);
 app.use(errorHandler);
 
 const port = PORT || 5001;

@@ -1,3 +1,5 @@
+const { failedResponse } = require("../utils/apiResponse");
+
 const errorHandler = (err, req, res, next) =>{
     const statusCode = res.statusCode || 500;
     res.status(statusCode).json({
@@ -7,5 +9,9 @@ const errorHandler = (err, req, res, next) =>{
     
 };
 
+const routeNotFound = (req , res)=>{
+    return res.status(404).json(failedResponse('NOT FOUND : This Route doesnt exists !'));
+}
 
-module.exports = {errorHandler}
+
+module.exports = { errorHandler, routeNotFound }
