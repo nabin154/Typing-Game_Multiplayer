@@ -51,6 +51,7 @@ const loginUser = asyncHandler(async (req, res) => {
             res.cookie('refreshToken', refreshToken, { httpOnly: true });
 
             const response = {
+                _id: user._id,
                 name: user.name,
                 email: user.email,
                 token: accessToken,
