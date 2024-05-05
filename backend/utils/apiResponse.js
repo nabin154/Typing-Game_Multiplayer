@@ -1,13 +1,13 @@
 
 
-const successResponse =(status , message , data)=>{
+const successResponse =( message , data)=>{
 return {
-    status : status,
+    status : 'success',
     message: message,
     data : data,
 }
 };
-const failedResponse =( message)=>{
+const failedResponse =(message)=>{
 return {
     status : "failed",
     message: message,

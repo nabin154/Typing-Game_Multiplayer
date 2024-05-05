@@ -1,7 +1,12 @@
 
-const { PORT,MONGODB_URI } = process.env;
+const { PORT, MONGODB_URI, JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN  ,
+    REACT_APP_URL
+} = process.env;
 
 module.exports = {
     PORT,
-    MONGODB_URI
+    MONGODB_URI,
+    JWT_ACCESS_TOKEN,
+    JWT_REFRESH_TOKEN,
+    REACT_APP_URL
 };

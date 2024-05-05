@@ -10,6 +10,13 @@ const registerValidationSchema = joi.object({
 });
 
 
+const loginValidationSchema = joi.object({
+    email: joi.string().email().required(),
+    password: joi.string().pattern(new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")).required()
+
+});
+
+
 
 const registerValidation = (req , res , next) => {
     const { error } = registerValidationSchema.validate(req.body);
@@ -17,7 +24,15 @@ const registerValidation = (req , res , next) => {
         return next(error);
     }
     next()
-}
+};
+
+const loginValidation = (req , res , next) => {
+    const { error } = loginValidationSchema.validate(req.body);
+    if(error){
+        return next(error);
+    }
+    next()
+};
 
 
-module.exports = { registerValidation }
+module.exports = { registerValidation, loginValidation }
