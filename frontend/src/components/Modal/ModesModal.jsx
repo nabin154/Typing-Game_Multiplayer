@@ -87,7 +87,7 @@ const ModesModal = () => {
                     </div>
                       <button 
                       onClick={handleClose}
-                      className='ml-14 mt-10 bg-red-500 px-2 text-sm py-1 rounded-md'>close x</button>
+                      className='absolute top-1 right-1 bg-red-500 px-2 text-sm py-1 rounded-md'>X</button>
                 </div>
 
             )}

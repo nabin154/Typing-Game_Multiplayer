@@ -3,14 +3,22 @@ const dotenv = require('dotenv').config();
 const colors = require('colors');
 const { PORT } = require("./utils/envData");
 const connectDB = require("./utils/dbSetup");
-const app = express();
+const authRoutes = require("./routes/authRoutes");
+const { errorHandler } = require("./middlewares/errorMiddleware");
 
+const app = express();
 app.use(express.json());
 
 app.get('/' , (req, res)=>{
     res.send(" hello from the server.")
 });
 
+
+app.use('/api/auth', authRoutes);
+
+
+
+app.use(errorHandler);
 connectDB();
 const port = PORT || 5001;
 app.listen(port , ()=>{
