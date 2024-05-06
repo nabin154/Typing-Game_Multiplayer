@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useTypingData } from '../../Context/DataProvider';
 
 const Loader = () => {
-    const [width, setWidth] = useState(0);
+const { width , setWidth} = useTypingData();
+
+
 
     useEffect(() => {
-        if(width<100){
+        if(width < 75){
         const timer = setTimeout(() => {
             setWidth(prevWidth => prevWidth + 2);
-        }, 5);
+        }, 10);
 
         return () => {
             clearTimeout(timer);

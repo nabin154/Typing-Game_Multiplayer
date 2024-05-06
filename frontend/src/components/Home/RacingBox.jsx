@@ -9,7 +9,7 @@ const RacingBox = ({ startTest, startTimer, completed, setCompleted }) => {
     useEffect(() => {
         if (seconds <= 0) {
             setCompleted(true);
-            setSeconds(10);
+            // setSeconds(10);
             return;
         }
         if (startTest && startTimer < 1 && !completed) {

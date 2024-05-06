@@ -1,16 +1,44 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { VscDebugStart } from "react-icons/vsc";
 import TypingTest from './TypingTest';
 import Loader from '../UI/Loader';
+import { useUser } from '../../Context/UserProvider';
+import { getUser } from '../../API/apis';
+import { useTypingData } from '../../Context/DataProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-
+    const navigate = useNavigate();
+    const { setUser } = useUser();
+    const { setWidth } = useTypingData();
     const [testStarted, setTestStarted] = useState(false);
-   
+
     const handleTestStart = () => {
         setTestStarted(true);
-
     }
+
+    const getUserDetails = async () => {
+        try {
+            const response = await getUser();
+            if (response) {
+                const data = response.data?.data;
+                setUser(data);
+                setTimeout(() => {
+                    setWidth(100);
+
+                }, 1000);
+
+            }
+        } catch (error) {
+            console.log("Error fetching the user!", err.message);
+        }
+    };
+
+    useEffect(() => {
+        getUserDetails();
+    }, [navigate]);
+
+
 
     return (
         <div className='custom-gradient  w-full mt-[1px]' style={{ minHeight: 'calc(100vh - 80px)' }}>
@@ -41,7 +69,7 @@ const Home = () => {
 
             {/* Test started */}
             {testStarted &&
-                <TypingTest/>
+                <TypingTest />
             }
         </div>
     )

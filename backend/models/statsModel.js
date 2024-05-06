@@ -7,7 +7,7 @@ const statsSchema = new mongoose.Schema({
     wpm: { type: Number, required: true },
     errors: { type: Number, required: true },
     mode: { type: String, required: true },
-    timeTaken: { type: String, required: true },
+    timeTaken: { type: Number, required: true },
 },
     {
         timestamps: true,

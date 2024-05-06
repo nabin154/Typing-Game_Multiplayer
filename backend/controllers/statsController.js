@@ -1,4 +1,5 @@
 const Stats = require('../models/statsModel');
+const User = require("../models/userModel");
 const { successResponse, failedResponse } = require('../utils/apiResponse');
 const asyncHandler = require('express-async-handler');
 
@@ -15,6 +16,17 @@ const addStats = asyncHandler(async (req, res) => {
             timeTaken,
             mode,
         });
+        let user = await User.findById(userId);
+        if (user) {
+            if (user.highScore < wpm) {
+                user.highScore = wpm;
+                await user.save();
+            }
+        }
+        else{
+            res.status(400);
+            throw new Error("Failed to add the stats!");
+        }
         if (stat) {
             return res.status(201).json(successResponse("Stats created successfully !", stat));
         }

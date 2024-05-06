@@ -6,8 +6,10 @@ const DataProvider = ({children}) => {
   
   const [startTestTime , setStartTestTime] = useState(null);
   const [margin , setMargin] = useState(0);
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(5);
   const [difficultyMode , setDifficultyMode] = useState('easy');
+  const [width, setWidth] = useState(0);
+
 
 
 
@@ -20,7 +22,9 @@ const DataProvider = ({children}) => {
       seconds,
       setSeconds,
       difficultyMode,
-      setDifficultyMode
+      setDifficultyMode,
+      width,
+      setWidth,
     }}>
       {children}
     </typingContext.Provider>

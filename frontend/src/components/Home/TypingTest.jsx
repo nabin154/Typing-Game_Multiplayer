@@ -3,11 +3,14 @@ import RacingBox from './RacingBox';
 import { useTypingData } from '../../Context/DataProvider';
 import { useToast } from '../../Context/ToastProvider';
 import CompletedModal from '../Modal/CompletedModal';
+import { addStats } from '../../API/apis';
+import { useUser } from '../../Context/UserProvider';
+import { paragraphs } from '../../data/paragraph';
 
 const TypingTest = () => {
-    const { startTestTime, setStartTestTime, margin, setMargin, seconds, setSeconds } = useTypingData();
-    const { showToast } = useToast(); 
-
+    const { startTestTime, setStartTestTime, margin, setMargin, seconds, setSeconds, difficultyMode } = useTypingData();
+    const { showToast } = useToast();
+    const [paragraph, setParagraph] = useState('');
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
     const [typedText, setTypedText] = useState('');
@@ -15,12 +18,19 @@ const TypingTest = () => {
     const [classType, setClassType] = useState('bright');
     const [completed, setCompleted] = useState(false);
     const [wpm, setWpm] = useState(0);
-    const [timeTaken ,setTimeTaken] = useState();
+    const [timeTaken, setTimeTaken] = useState();
 
-    // let paragraph = 'In the heart of a bustling city, amidst the cacophony of honking horns and hurried footsteps, lies a quaint cafe. Its walls adorned with vintage photographs and the aroma of freshly brewed coffee wafting through the air create a haven of tranquility. Patrons, lost in conversation or buried in books, find solace in its cozy embrace. Here, time slows down, and worries dissolve, as each sip brings a moment of respite from the chaos outside.';
-    let paragraph = "The wind whispered through the trees, carrying with it the scent of blooming flowers. The river flowed gently, its waters shimmering in the sunlight. Birds soared high above, their wings outstretched against the endless blue sky. Nature hummed with life, a symphony of sights and sounds that filled the air with wonder. In this tranquil moment, all worries melted away, replaced by a deep sense of peace and contentment. It was a reminder of the beauty that surrounded us, a reminder to cherish each fleeting moment. It was a play."
-//    let paragraph = 'nabin bhandari'
-   //CountDown Timer when start button is clicked
+  
+   const getParagraph = ()=>{
+   const paragraphsData = paragraphs[difficultyMode];
+   const index = Math.floor(Math.random() * paragraphsData.length);
+       return paragraphsData[index];
+   }
+    useEffect(() => {
+        setParagraph(getParagraph());
+    }, [difficultyMode]);
+
+    //CountDown Timer when start button is clicked
     useEffect(() => {
         if (startTest && startTimer > 0) {
             const timer = setTimeout(() => {
@@ -32,33 +42,68 @@ const TypingTest = () => {
     }, [startTest, startTimer]);
 
 
-    // after completion rendering
-    useEffect(() => {
-        if (completed) {
-            calculateWPM();
-            // showToast("Completed Test!", 'success', 2000);
+    const postStats = async () => {
+        let data = {
+            mode: difficultyMode,
+            wpm: Number(wpm),
+            errors: Number(errorCount),
+            timeTaken: Number(timeTaken)
+        };
+        try {
+            const response = await addStats(data);
+            if (response) {
+                console.log(response.data.message);
+            }
+
+        } catch (error) {
+            console.log(error.message);
         }
-    }, [completed]);
+    };
 
 
-   
-
-//calculating the words per minutes
+    //calculating the words per minutes
     const calculateWPM = () => {
         const endTime = new Date();
         const timeInSeconds = (endTime - startTestTime) / 1000;
-        setTimeTaken(timeInSeconds);
         const wordsTyped = typedText.split(' ').length;
         const timeInMinutes = timeInSeconds / 60;
         const wpmValue = Math.round(wordsTyped / timeInMinutes);
         setWpm(wpmValue);
+        setTimeTaken(Number(timeInSeconds.toFixed(2)));
+
     };
+
+
+    // after completion rendering
+    useEffect(() => {
+        if (completed) {
+            calculateWPM();
+        }
+    
+    }, [completed]);
+
+  //to post the data to the database
+    useEffect(() => {
+        if ((completed && seconds <= 0) || (typedText.length === paragraph.length - 1)) {
+            if(wpm && timeTaken){
+            setTimeout(() => {
+                postStats();
+            }, 1000);
+        }
+        }
+    }, [calculateWPM ]);
+
+
+
+
+
+
 
 
     //main function for typing test
     const handleTyping = (event) => {
         if (!startTest || startTimer >= 1 || completed) return;
-        if(typedText.length === paragraph.length - 1) setCompleted(true);
+        if (typedText.length === paragraph.length - 1) setCompleted(true);
         const typedChar = event.key;
         const currentCharIndex = typedText.length;
         const currentChar = paragraph[currentCharIndex];
@@ -88,7 +133,7 @@ const TypingTest = () => {
 
     };
 
-  // spliting the each letters and adding them to span tag
+    // spliting the each letters and adding them to span tag
     const renderParagraph = (text) => {
         return text.split('').map((letter, index) => {
             let className = index === typedText.length ? classType : 'normal';
@@ -113,12 +158,12 @@ const TypingTest = () => {
             setStartTestTime(null);
             setWpm(0);
             setMargin(0);
-            setSeconds(120);
+            setSeconds(10);
             setTimeTaken(null);
         }
     };
 
-    const handleClose = ()=>{
+    const handleClose = () => {
         setCompleted(false);
         setStartTest(false);
         setClassType('bright');
@@ -128,7 +173,7 @@ const TypingTest = () => {
         setStartTestTime(null);
         setWpm(0);
         setMargin(0);
-        setSeconds(120);
+        setSeconds(10);
         setTimeTaken(null);
     }
 
@@ -158,11 +203,11 @@ const TypingTest = () => {
             </section>
             <section>
                 <CompletedModal
-                completed={completed}
-                handleClose={handleClose}
-                wpm={wpm}
-                timeTaken={timeTaken}
-                errorCount={errorCount}/>
+                    completed={completed}
+                    handleClose={handleClose}
+                    wpm={wpm}
+                    timeTaken={timeTaken}
+                    errorCount={errorCount} />
             </section>
         </div>
     );

@@ -23,9 +23,18 @@ export const login = async (data) => {
 
 export const getUser = async () => {
     const {_id} = JSON.parse(localStorage.getItem('userInfo'));
-    console.log(_id);
     try {
         const response = await axiosInstance.get(`/api/users/${_id}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const addStats = async (data) => {
+    console.log(data);
+    try {
+        const response = await axiosInstance.post('/api/stats/addstats', data);
         return response;
     } catch (error) {
         throw error;

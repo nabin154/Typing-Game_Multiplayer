@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
     email: {type : String , required: true},
     image: {type: String, required : true},
     password :{type: String , required:true},
+    highScore :{type: Number ,default : 0},
     refreshToken :{type: String },
 },
 {

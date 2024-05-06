@@ -1,42 +1,24 @@
 import React, { Children, createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../API/apis';
+import { useTypingData } from './DataProvider';
 
 const userContext = createContext();
 
 const UserProvider = ({ children }) => {
     // const navigate = useNavigate();
+    // const userInfo = JSON.parse(localStorage.getItem("userinfo"));
+    const [user, setUser] = useState();
 
-const [ user , setUser ] = useState();
+ 
 
-const getUserDetails = async()=>{
-    try{
-    const response = await getUser();
-    if(response)
-        {
-            const data = response.data?.data;
-            console.log(data);
-            setUser(data);
-            
-        }
-    }catch(error)
-    {
-        console.log("Error fetching the user!" , err.message);
-    }
-
-}
-
-useEffect(()=>{
-
-    getUserDetails();
-
-},[]);
 
 
     return (
         <userContext.Provider value={{
             user,
-            setUser
+            setUser,
+            
         }}>
             {children}
         </userContext.Provider>

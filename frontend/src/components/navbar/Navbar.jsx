@@ -3,13 +3,21 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { FiLogOut, FiMenu } from "react-icons/fi";
 import logo from '../../assets/logo.png'
 import NavList from './NavList';
+import { useTypingData } from '../../Context/DataProvider';
 
 const Navbar = () => {
-    
+    const { setWidth } = useTypingData();
     const navigate = useNavigate();
     const [isMenuToggled, setIsMenuToggled] = useState(false);
+
     const handleToogle = () => {
         setIsMenuToggled(!isMenuToggled);
+    }
+
+    const handleLogout = ()=>{
+        navigate('/');
+        localStorage.removeItem("userInfo");
+        setWidth(0);
     }
     return (
         <div className='min-h-20 md:h-26 py-3  w-full custom-gradient'>
@@ -27,7 +35,7 @@ const Navbar = () => {
 
                 <button onClick={handleToogle} className='bg-rightGradientColor text-3xl text-white md:hidden'><FiMenu /></button>
                 <button
-                    onClick={() => navigate('/')}
+                    onClick={handleLogout}
                     className='hidden md:block bg-rightGradientColor text-4xl text-white hover:text-purple-500'><FiLogOut /></button>
 
 
@@ -36,7 +44,8 @@ const Navbar = () => {
             {isMenuToggled &&
                 <div>
                     <NavList className={'flex flex-col items-center text-white gap-6 font-rubik text-lg font-semibold cursor-pointer '}
-                        isMenuToggled={isMenuToggled} />
+                        isMenuToggled={isMenuToggled} 
+                        handleLogout={handleLogout}/>
                 </div>
             }
         </div>
