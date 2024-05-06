@@ -51,6 +51,7 @@ const loginUser = async( data)=>{
     try {
       const response = await login(data);
       if (response.status >= 200 && response.status < 300) {
+        localStorage.setItem('userInfo' ,JSON.stringify(response.data.data));
         navigate('/home');
         const message = response.data.message;
         showToast(message, 'success', 4000);
@@ -71,9 +72,8 @@ const loginUser = async( data)=>{
 
 
   const onSubmit = async (data, e) => {
-    const {name , ...rest} = data;
-    
     e.preventDefault();
+    const {name , ...rest} = data;
     isSignupPage? signUpUser(data) : loginUser(rest);
     
   };

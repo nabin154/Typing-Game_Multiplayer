@@ -4,29 +4,39 @@ import axiosInstance from "../utils/axiosInstance"
 export const signUp = async (data) => {
     try {
         const response = await axiosInstance.post('/api/auth/register', data);
-       return response;
+        return response;
     } catch (error) {
         throw error;
     }
-}
+};
+
+
 export const login = async (data) => {
     try {
         const response = await axiosInstance.post('/api/auth/login', data);
-       return response;
+        return response;
     } catch (error) {
         throw error;
     }
-}
+};
+
+
+export const getUser = async () => {
+    const {_id} = JSON.parse(localStorage.getItem('userInfo'));
+    console.log(_id);
+    try {
+        const response = await axiosInstance.get(`/api/users/${_id}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 export const uploadCloudinary = async (pics) => {
-    if (!pics) {
-        return ;
-    }
 
-    if (!pics.type.startsWith("image/")) {
-        return ;
-    }
+    if (!pics)  return;
+    if (!pics.type.startsWith("image/"))  return;
 
     const data = new FormData();
     data.append("file", pics);

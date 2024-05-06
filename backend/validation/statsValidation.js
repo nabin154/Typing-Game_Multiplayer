@@ -14,6 +14,7 @@ const addStatsValidation = async (req, res, next) => {
     
     const { error } = addStatsValidationSchema.validate(req.body);
     if (error) {
+        res.status(400);
         return next(error);
     }
     next()

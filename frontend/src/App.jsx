@@ -7,12 +7,14 @@ import StatsPage from "./pages/stats/StatsPage";
 import ToastProvider from "./Context/ToastProvider";
 import Toast from "./components/UI/Toast";
 import Loader from "./components/UI/Loader";
+import UserProvider from "./Context/UserProvider";
 
 
 function App() {
   return (
     <>
       <ToastProvider>
+        <UserProvider>
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<LoginSignupPage />} />
@@ -22,6 +24,7 @@ function App() {
           <Toast />
 
       </BrowserRouter>
+        </UserProvider>
         </ToastProvider>
     </>
   );

@@ -6,6 +6,7 @@ const { PORT, REACT_APP_URL } = require("./utils/envData");
 const connectDB = require("./utils/dbSetup");
 const authRoutes = require("./routes/authRoutes");
 const statsRoutes = require("./routes/statsRoutes");
+const userRoutes = require("./routes/userRoutes");
 const { errorHandler, routeNotFound } = require("./middlewares/errorMiddleware");
 const cookieParser = require("cookie-parser");
 
@@ -25,6 +26,7 @@ app.get('/' , (req, res)=>{
 
 app.use('/api/auth', authRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/users', userRoutes);
 
 
 app.use(routeNotFound);
