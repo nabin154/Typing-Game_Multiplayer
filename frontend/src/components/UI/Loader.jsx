@@ -6,8 +6,8 @@ const Loader = () => {
     useEffect(() => {
         if(width<100){
         const timer = setTimeout(() => {
-            setWidth(prevWidth => prevWidth + 70);
-        }, 200);
+            setWidth(prevWidth => prevWidth + 2);
+        }, 5);
 
         return () => {
             clearTimeout(timer);
@@ -17,7 +17,7 @@ const Loader = () => {
 
 
     return (
-        <div className ={`absolute sm:top-20 md:top-[85px] bg-purple-500 h-[5px] shadow ${width >= 100 ? 'hidden' : 'block'}`}
+        <div className ={`absolute sm:top-20 md:top-[85px] bg-purple-500 h-[3px] shadow ${width >= 100 ? 'hidden' : 'block'}`}
             style={{ width: `${width}%` }}>
         </div>
     );

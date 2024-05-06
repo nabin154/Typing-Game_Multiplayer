@@ -4,6 +4,7 @@ import { FaSquareFacebook } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '../../Context/ToastProvider';
 import { useForm } from "react-hook-form"
+import { login, signUp, uploadCloudinary } from '../../API/apis';
 
 
 const Form = () => {
@@ -11,18 +12,73 @@ const Form = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+    reset,
+  } = useForm();
+
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const [selectedImage, setSelectedImage] = useState();
   const [isSignupPage, setIsSignUp] = useState(false);
 
-  const onSubmit = (data, e) => {
-    console.log(data)
-    e.preventDefault();
-    navigate('/home');
-    showToast("Logged In !", 'success', 2000);
+const signUpUser = async( data)=>{
+  let postData = {};
 
+  const imageUrl = await uploadCloudinary(selectedImage);
+  if (imageUrl) {
+    postData = { ...data, image: imageUrl };
+    try {
+      const response = await signUp(postData);
+      if (response.status >= 200 && response.status < 300) {
+        const message = response.data.message;
+        showToast(message, 'success', 4000);
+        reset();
+      } else if (response.status === 400) {
+        const error = response.data.message || 'Error while creating the user';
+        showToast(error, 'error', 4000);
+      } else {
+        const error = response.data.message || 'An error occurred';
+        showToast(error, 'error', 4000);
+      }
+    }
+    catch (error) {
+      let err = error.response.data.message;
+      showToast(err, 'error', 5000);
+    }
   }
+}
+const loginUser = async( data)=>{
+
+    try {
+      const response = await login(data);
+      if (response.status >= 200 && response.status < 300) {
+        navigate('/home');
+        const message = response.data.message;
+        showToast(message, 'success', 4000);
+        reset();
+      } else if (response.status === 400) {
+        const error = response.data.message || 'Error while creating the user';
+        showToast(error, 'error', 4000);
+      } else {
+        const error = response.data.message || 'An error occurred';
+        showToast(error, 'error', 4000);
+      }
+    }
+    catch (error) {
+      let err = error.response.data.message;
+      showToast(err, 'error', 5000);
+    }
+  }
+
+
+  const onSubmit = async (data, e) => {
+    const {name , ...rest} = data;
+    
+    e.preventDefault();
+    isSignupPage? signUpUser(data) : loginUser(rest);
+    
+  };
+
+
 
   return (
     <div className='custom-gradient w-full min-h-screen flex items-center justify-center pb-4' >
@@ -90,7 +146,7 @@ const Form = () => {
                   Image :
                 </label>
                 <input
-                  {...register("image")}
+                  onChange={(e) => setSelectedImage(e.target.files[0])}
                   type="file"
                   accept="image/*" className='w-56  sm:w-72 p-2  mt-2 bg-rightGradientColor border-b border-purple-400 focus:outline-none text-white' placeholder='Enter your name' />
 

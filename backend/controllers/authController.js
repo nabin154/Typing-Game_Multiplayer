@@ -62,7 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
             res.status(400).json(failedResponse('Invalid credentials!'));
         }
     } catch (error) {
-        throw new Error("Internal server error!")
+        throw new Error("Invalid email or password!")
     }
 });
 
