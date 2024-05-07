@@ -37,7 +37,7 @@ userSchema.methods.generateToken = async function(){
         return await jwt.sign(
            
            { _id: this._id,
-            email: this._email,
+            email: this.email,
            },
            JWT_ACCESS_TOKEN,
            {
@@ -57,11 +57,11 @@ userSchema.methods.generateRefreshToken = async function(){
         return await jwt.sign(
            
            { _id: this._id,
-            email: this._email,
+            email: this.email,
            },
            JWT_REFRESH_TOKEN,
            {
-            expiresIn : "30d"
+            expiresIn : "20d",
            },
         );
     }catch(err)

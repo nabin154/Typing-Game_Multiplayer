@@ -52,7 +52,8 @@ const getGraphData = asyncHandler(async (req, res) => {
             return acc + currValue.errors;
         }, 0);
         const easyCount = await Stats.countDocuments({ userId: userId, mode: 'easy' });
-        result = [...result, { name: "easy", played: easyCount, errors: errorsEasy }];
+        const averageEasyErrors = Math.floor(errorsEasy / easyCount);
+        result = [...result, { name: "easy", played: easyCount, AvgErrors: averageEasyErrors }];
 
 
         const playedMedium = await Stats.find({ userId: userId, mode: 'medium' });
@@ -60,7 +61,9 @@ const getGraphData = asyncHandler(async (req, res) => {
             return acc + currValue.errors;
         }, 0);
         const mediumCount = await Stats.countDocuments({ userId: userId, mode: 'medium' });
-        result = [...result, { name: "medium", played: mediumCount, errors: errorsMedium }];
+        const averageMediumErrors = Math.floor(errorsMedium / mediumCount);
+
+        result = [...result, { name: "medium", played: mediumCount, AvgErrors: averageMediumErrors }];
 
 
 
@@ -69,7 +72,9 @@ const getGraphData = asyncHandler(async (req, res) => {
             return acc + currValue.errors;
         }, 0);
         const difficultCount = await Stats.countDocuments({ userId: userId, mode: 'difficult' });
-        result = [...result, { name: "difficult", played: difficultCount, errors: errorsDifficult }];
+        const averageDifficultErrors = Math.floor(errorsDifficult / difficultCount);
+
+        result = [...result, { name: "difficult", played: difficultCount, AvgErrors: averageDifficultErrors }];
 
         // const allStatsOfUser = await Stats.find({userId: userId});
         // const finalStats = [allStatsOfUser , result];

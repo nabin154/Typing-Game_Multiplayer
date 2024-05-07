@@ -60,7 +60,7 @@ const Chart = () => {
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="played" stackId="a" fill="#27ae60" />
-                        <Bar dataKey="errors" stackId="b" fill="#c0392b" />
+                        <Bar dataKey="AvgErrors" stackId="b" fill="#c0392b" />
                     </BarChart>
                 </ResponsiveContainer>
 

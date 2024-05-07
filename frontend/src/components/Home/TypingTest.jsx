@@ -5,7 +5,7 @@ import { useToast } from '../../Context/ToastProvider';
 import CompletedModal from '../Modal/CompletedModal';
 import { addStats } from '../../API/apis';
 import { useUser } from '../../Context/UserProvider';
-import { paragraphs } from '../../data/paragraph';
+import { paragraphs, timeForModes } from '../../data/paragraph';
 
 const TypingTest = () => {
     const { startTestTime, setStartTestTime, margin, setMargin, seconds, setSeconds, difficultyMode } = useTypingData();
@@ -20,14 +20,17 @@ const TypingTest = () => {
     const [wpm, setWpm] = useState(0);
     const [timeTaken, setTimeTaken] = useState();
 
-  
-   const getParagraph = ()=>{
-   const paragraphsData = paragraphs[difficultyMode];
-   const index = Math.floor(Math.random() * paragraphsData.length);
-       return paragraphsData[index];
-   }
+
+    const getParagraph = () => {
+        const paragraphsData = paragraphs[difficultyMode];
+        const index = Math.floor(Math.random() * paragraphsData.length);
+        return paragraphsData[index];
+    }
+
+
     useEffect(() => {
         setParagraph(getParagraph());
+        setSeconds(timeForModes[difficultyMode]);
     }, [difficultyMode]);
 
     //CountDown Timer when start button is clicked
@@ -79,30 +82,24 @@ const TypingTest = () => {
         if (completed) {
             calculateWPM();
         }
-    
+
     }, [completed]);
 
-  //to post the data to the database
+    //to post the data to the database
     useEffect(() => {
         if ((completed && seconds <= 0) || (typedText.length === paragraph.length - 1)) {
-            if(wpm && timeTaken){
-            setTimeout(() => {
-                postStats();
-            }, 1000);
+            if (wpm && timeTaken) {
+                setTimeout(() => {
+                    postStats();
+                }, 1000);
+            }
         }
-        }
-    }, [calculateWPM ]);
-
-
-
-
-
-
+    }, [calculateWPM]);
 
 
     //main function for typing test
     const handleTyping = (event) => {
-        if (!startTest || startTimer >= 1 || completed) return;
+        if (!startTest || startTimer >= 1 || completed ||( completed && event.key === ' ')) return;
         if (typedText.length === paragraph.length - 1) setCompleted(true);
         const typedChar = event.key;
         const currentCharIndex = typedText.length;
@@ -158,7 +155,7 @@ const TypingTest = () => {
             setStartTestTime(null);
             setWpm(0);
             setMargin(0);
-            setSeconds(10);
+            setSeconds(timeForModes[difficultyMode]);
             setTimeTaken(null);
         }
     };
@@ -173,7 +170,7 @@ const TypingTest = () => {
         setStartTestTime(null);
         setWpm(0);
         setMargin(0);
-        setSeconds(10);
+        setSeconds(timeForModes[difficultyMode]);
         setTimeTaken(null);
     }
 

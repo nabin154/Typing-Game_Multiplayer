@@ -17,3 +17,11 @@ export const paragraphs = {
 };
 
 
+export const timeForModes = {
+    easy: 140,
+    medium : 120,
+    difficult : 120
+
+}
+
+

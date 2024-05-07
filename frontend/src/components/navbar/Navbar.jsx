@@ -4,7 +4,6 @@ import { FiLogOut, FiMenu } from "react-icons/fi";
 import logo from '../../assets/logo.png'
 import NavList from './NavList';
 import { useTypingData } from '../../Context/DataProvider';
-import { GiLogging } from 'react-icons/gi';
 import { logout } from '../../API/apis';
 
 const Navbar = () => {

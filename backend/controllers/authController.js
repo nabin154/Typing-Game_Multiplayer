@@ -47,8 +47,15 @@ const loginUser = asyncHandler(async (req, res) => {
             user.refreshToken = refreshToken;
             await user.save();
 
-            res.cookie('accessToken', accessToken, { httpOnly: true });
-            res.cookie('refreshToken', refreshToken, { httpOnly: true });
+            const cookieOptions = {
+                httpOnly: true,
+                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), 
+                sameSite: 'strict', 
+            };
+
+            res.cookie('accessToken', accessToken, cookieOptions);
+            res.cookie('refreshToken', refreshToken, cookieOptions);
+
 
             const response = {
                 _id: user._id,
@@ -71,7 +78,7 @@ const createNewToken = asyncHandler(async (req, res) => {
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
-        return res.status(404).json(failedResponse('RefreshToken is missing!'));
+        return res.status(403).json(failedResponse('RefreshToken is missing!'));
     }
 
     try {
@@ -83,14 +90,15 @@ const createNewToken = asyncHandler(async (req, res) => {
         }
 
         if (refreshToken !== user.refreshToken) {
-            return res.status(403).json(failedResponse('Expired or used refresh Token!'));
+            return res.status(402).json(failedResponse('Expired or used refresh Token!'));
         }
 
-        const accessToken = await jwt.sign({ _id: decoded._id, email: decoded.email }, JWT_ACCESS_TOKEN, { expiresIn: "15m" });
+        const accessToken = await jwt.sign({ _id: decoded._id, email: decoded.email }, JWT_ACCESS_TOKEN, { expiresIn: "10m" });
         res.cookie("accessToken", accessToken, { httpOnly: true });
 
         return res.status(200).json(successResponse('New Access Token created!', { accessToken: accessToken }));
     } catch (error) {
+        res.status(403);
         throw new Error("Internal server error while creating token !")
     }
 });
