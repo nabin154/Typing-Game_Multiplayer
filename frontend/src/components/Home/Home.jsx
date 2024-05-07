@@ -6,12 +6,34 @@ import { useUser } from '../../Context/UserProvider';
 import { getUser } from '../../API/apis';
 import { useTypingData } from '../../Context/DataProvider';
 import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
+import { BACKEND_URL } from '../../utils/constant';
+var socket;
 
 const Home = () => {
     const navigate = useNavigate();
-    const { setUser } = useUser();
+    const { setUser ,user  , setOnlineUsers} = useUser();
     const { setWidth } = useTypingData();
     const [testStarted, setTestStarted] = useState(false);
+
+    useEffect(() => {
+        socket = io(BACKEND_URL);
+        if(user){
+        socket.emit('setup' , user);
+        socket.on("online users" ,(userdata)=>{
+
+            const data = userdata.filter(([id ,{_id} ])=>{
+            return _id != user._id});
+            setOnlineUsers(data);
+       
+        });
+    }
+
+        return () => {
+            socket.disconnect();
+        };
+
+    },[user]);
 
     const handleTestStart = () => {
         setTestStarted(true);
@@ -37,6 +59,8 @@ const Home = () => {
     useEffect(() => {
         getUserDetails();
     }, [navigate]);
+
+    
 
 
 

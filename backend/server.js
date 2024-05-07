@@ -9,8 +9,12 @@ const statsRoutes = require("./routes/statsRoutes");
 const userRoutes = require("./routes/userRoutes");
 const { errorHandler, routeNotFound } = require("./middlewares/errorMiddleware");
 const cookieParser = require("cookie-parser");
+const socketIo = require('socket.io');
+const http = require('http');
 
 const app = express();
+const server = http.createServer(app);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
@@ -33,7 +37,38 @@ app.use(routeNotFound);
 app.use(errorHandler);
 
 const port = PORT || 5001;
-app.listen(port , ()=>{
+server.listen(port , ()=>{
     console.log(`Server is listening at port ${port}`.yellow.bold);
 });
 
+
+const onlineUsers = new Map();
+const io = socketIo(server, {
+    pingTimeout: 60000,
+    cors: {
+        origin: REACT_APP_URL,
+        credentials: true,
+    }
+});
+
+io.on("connection", (socket) => {
+    console.log('socket connected');
+
+    socket.on('setup' ,(userData)=>{
+        socket.join(userData._id);
+        onlineUsers.set(socket.id , userData);
+        console.log("user connected", userData._id);
+        io.emit("online users" , Array.from(onlineUsers));
+    });
+
+
+    socket.on("disconnect", () => {
+        onlineUsers.delete(socket.id);
+        io.emit("online users", Array.from(onlineUsers));
+    });
+    socket.off("setup", () => {
+
+        console.log("USER DISCONNECTED");
+        socket.leave(userData._id);
+    });
+});

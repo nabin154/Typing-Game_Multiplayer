@@ -1,14 +1,11 @@
-import React, { Children, createContext, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { getUser } from '../API/apis';
-import { useTypingData } from './DataProvider';
+import React, { Children, createContext, useContext, useEffect, useState } from 'react';
 
 const userContext = createContext();
 
 const UserProvider = ({ children }) => {
-    // const navigate = useNavigate();
-    // const userInfo = JSON.parse(localStorage.getItem("userinfo"));
+ 
     const [user, setUser] = useState();
+    const [onlineUsers , setOnlineUsers] = useState();
 
  
 
@@ -18,7 +15,8 @@ const UserProvider = ({ children }) => {
         <userContext.Provider value={{
             user,
             setUser,
-            
+            onlineUsers,
+            setOnlineUsers,
         }}>
             {children}
         </userContext.Provider>

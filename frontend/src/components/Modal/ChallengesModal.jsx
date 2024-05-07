@@ -46,8 +46,8 @@ const ChallengesModal = () => {
                 >
                     <div>
                         <OnlineUserList/>
-                        <OnlineUserList/>
                     
+                       
                     </div>
                     
                     <button
