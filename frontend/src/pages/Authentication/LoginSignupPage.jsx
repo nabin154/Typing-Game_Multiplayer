@@ -1,12 +1,23 @@
-import React from 'react'
-import Form from '../../components/Authentication/Form'
+import React, { useEffect } from 'react';
+import Form from '../../components/Authentication/Form';
+import { useNavigate } from 'react-router-dom';
 
 const LoginSignupPage = () => {
-  return (
-    <div>
-      <Form/>
-    </div>
-  )
-}
+  const navigate = useNavigate();
 
-export default LoginSignupPage
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
+  return(
+    <div>
+       <Form />
+    </div>
+ 
+  );
+};
+
+export default LoginSignupPage;

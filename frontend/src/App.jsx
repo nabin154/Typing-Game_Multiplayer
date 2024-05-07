@@ -2,12 +2,11 @@ import "./App.css";
 import {Routes, Route , BrowserRouter}  from 'react-router-dom';
 import LoginSignupPage from "./pages/Authentication/LoginSignupPage";
 import HomePage from "./pages/Home/HomePage";
-// import ChallengePage from "./pages/Home/ChallengePage";
 import StatsPage from "./pages/stats/StatsPage";
 import ToastProvider from "./Context/ToastProvider";
 import Toast from "./components/UI/Toast";
-import Loader from "./components/UI/Loader";
 import UserProvider from "./Context/UserProvider";
+import Protected from "./components/Authentication/Protected";
 
 
 function App() {
@@ -18,8 +17,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<LoginSignupPage />} />
-          <Route path={"/home"} element={<HomePage />} />
-          <Route path={"/stats"} element={<StatsPage />} />
+              <Route path={"/home"} element={<Protected> <HomePage /></Protected>} />
+              <Route path={"/stats"} element={<Protected> <StatsPage /></Protected>} />
         </Routes>
           <Toast />
 

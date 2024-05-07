@@ -19,6 +19,14 @@ export const login = async (data) => {
         throw error;
     }
 };
+export const logout = async (data) => {
+    try {
+        const response = await axiosInstance.post('/api/auth/logout');
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 export const getUser = async () => {
@@ -32,9 +40,25 @@ export const getUser = async () => {
 };
 
 export const addStats = async (data) => {
-    console.log(data);
     try {
         const response = await axiosInstance.post('/api/stats/addstats', data);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+export const fetchGraphData = async () => {
+    try {
+        const response = await axiosInstance.get('/api/stats/');
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+export const fetchTableData = async () => {
+    const { _id } = JSON.parse(localStorage.getItem('userInfo'));
+    try {
+        const response = await axiosInstance.get(`/api/stats/${_id}`);
         return response;
     } catch (error) {
         throw error;

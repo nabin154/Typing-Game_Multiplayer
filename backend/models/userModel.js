@@ -41,7 +41,7 @@ userSchema.methods.generateToken = async function(){
            },
            JWT_ACCESS_TOKEN,
            {
-            expiresIn : "15m"
+            expiresIn : "10m"
            },
         );
     }catch(err)

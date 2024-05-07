@@ -24,6 +24,7 @@ const auth = asyncHandler(async (req, res, next) => {
             return res.status(401).json(failedResponse("Unauthorized :Token is invalid or expired! "));
         }
     } catch (error) {
+        res.status(401);
         throw new Error("Unauthorized : Internal server error !");
     }
 });

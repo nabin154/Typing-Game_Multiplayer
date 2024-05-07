@@ -4,6 +4,8 @@ import { FiLogOut, FiMenu } from "react-icons/fi";
 import logo from '../../assets/logo.png'
 import NavList from './NavList';
 import { useTypingData } from '../../Context/DataProvider';
+import { GiLogging } from 'react-icons/gi';
+import { logout } from '../../API/apis';
 
 const Navbar = () => {
     const { setWidth } = useTypingData();
@@ -14,10 +16,18 @@ const Navbar = () => {
         setIsMenuToggled(!isMenuToggled);
     }
 
-    const handleLogout = ()=>{
-        navigate('/');
+    
+
+    const handleLogout = async()=>{
+        const response = await logout();
+        if (response){
         localStorage.removeItem("userInfo");
         setWidth(0);
+        navigate('/');
+        }
+        else{
+            console.log("error loogging oout user");
+        }
     }
     return (
         <div className='min-h-20 md:h-26 py-3  w-full custom-gradient'>
