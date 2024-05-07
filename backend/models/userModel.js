@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema({
     highScore :{type: Number ,default : 0},
     refreshToken :{type: String },
 },
+    {
+        suppressReservedKeysWarning: true
+    },
 {
     timestamps: true,
 });

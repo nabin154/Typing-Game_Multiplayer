@@ -50,7 +50,7 @@ const loginUser = asyncHandler(async (req, res) => {
             const cookieOptions = {
                 httpOnly: true,
                 expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), 
-                sameSite: 'strict', 
+                // sameSite: 'strict', 
             };
 
             res.cookie('accessToken', accessToken, cookieOptions);
@@ -94,7 +94,12 @@ const createNewToken = asyncHandler(async (req, res) => {
         }
 
         const accessToken = await jwt.sign({ _id: decoded._id, email: decoded.email }, JWT_ACCESS_TOKEN, { expiresIn: "10m" });
-        res.cookie("accessToken", accessToken, { httpOnly: true });
+        const cookieOptions = {
+            httpOnly: true,
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            // sameSite: 'strict', 
+        };
+        res.cookie("accessToken", accessToken, cookieOptions);
 
         return res.status(200).json(successResponse('New Access Token created!', { accessToken: accessToken }));
     } catch (error) {

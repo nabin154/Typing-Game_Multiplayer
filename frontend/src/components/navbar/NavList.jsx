@@ -4,14 +4,14 @@ import { FiLogOut } from "react-icons/fi";
 import { GiPlayerTime } from "react-icons/gi";
 import { ImStatsDots } from "react-icons/im";
 import ModesModal from '../Modal/ModesModal';
+import ChallengesModal from '../Modal/ChallengesModal';
 
 
 const NavList = ({ className, isMenuToggled, handleLogout }) => {
 
     return (
         <ul className={className}>
-            <li className='hover:text-purple-500 '>
-                <NavLink to={'/home'} className={'flex items-center'}> <GiPlayerTime className='mr-2' size={'17px'} />Challenges </NavLink></li>
+            <li><ChallengesModal/> </li>
             <li ><ModesModal /></li>
             <li>
                 <NavLink to={'/stats'} className={'hover:text-purple-500 flex items-center'}><ImStatsDots className='mr-2' size={'17px'} />Stats</NavLink></li>

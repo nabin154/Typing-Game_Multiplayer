@@ -10,6 +10,9 @@ const statsSchema = new mongoose.Schema({
     timeTaken: { type: Number, required: true },
 },
     {
+        suppressReservedKeysWarning: true
+    },
+    {
         timestamps: true,
     });
 

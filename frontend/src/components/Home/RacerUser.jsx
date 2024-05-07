@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTypingData } from '../../Context/DataProvider';
-import logo from '../../assets/logo.png';
 import { useUser } from '../../Context/UserProvider';
 
 const RacerUser = () => {

@@ -64,7 +64,7 @@ const StatsTable = () => {
                                     {data.errors}
                                 </td>
                                 <td className="px-3 py-2 md:px-6 md:py-3 ">
-                                    {data.timeTaken}sec
+                                    {data.timeTaken} sec
                                 </td>
 
                             </tr>

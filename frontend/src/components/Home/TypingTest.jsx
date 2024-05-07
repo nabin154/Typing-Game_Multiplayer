@@ -87,7 +87,7 @@ const TypingTest = () => {
 
     //to post the data to the database
     useEffect(() => {
-        if ((completed && seconds <= 0) || (typedText.length === paragraph.length - 1)) {
+        if ((completed && seconds <= 0) || (completed && typedText.length === paragraph.length)) {
             if (wpm && timeTaken) {
                 setTimeout(() => {
                     postStats();
@@ -99,7 +99,7 @@ const TypingTest = () => {
 
     //main function for typing test
     const handleTyping = (event) => {
-        if (!startTest || startTimer >= 1 || completed ||( completed && event.key === ' ')) return;
+        if (!startTest || startTimer >= 1 || completed) return;
         if (typedText.length === paragraph.length - 1) setCompleted(true);
         const typedChar = event.key;
         const currentCharIndex = typedText.length;
