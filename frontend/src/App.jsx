@@ -7,6 +7,7 @@ import ToastProvider from "./Context/ToastProvider";
 import Toast from "./components/UI/Toast";
 import UserProvider from "./Context/UserProvider";
 import Protected from "./components/Authentication/Protected";
+import Notification from "./components/Modal/Notification";
 
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
               <Route path={"/stats"} element={<Protected> <StatsPage /></Protected>} />
         </Routes>
           <Toast />
+            <Notification />
+
 
       </BrowserRouter>
         </UserProvider>

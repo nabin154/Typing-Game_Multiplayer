@@ -6,6 +6,7 @@ import CompletedModal from '../Modal/CompletedModal';
 import { addStats } from '../../API/apis';
 import { useUser } from '../../Context/UserProvider';
 import { paragraphs, timeForModes } from '../../data/paragraph';
+import Notification from '../Modal/Notification';
 
 const TypingTest = () => {
     const { startTestTime, setStartTestTime, margin, setMargin, seconds, setSeconds, difficultyMode } = useTypingData();

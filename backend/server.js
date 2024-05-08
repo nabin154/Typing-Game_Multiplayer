@@ -61,6 +61,18 @@ io.on("connection", (socket) => {
         io.emit("online users" , Array.from(onlineUsers));
     });
 
+    socket.on('challenge',(data)=>{
+        const {id , user} = data;
+socket.to(id).emit('challenge received', user);
+    })
+    socket.on('challenge accepted', (data)=>{
+        const { challenger, user } = data;
+socket.to(challenger._id).emit('challenge connected', user);
+    })
+    socket.on('challenge rejected',(friend)=>{
+socket.to(friend._id).emit('challenge cancelled', friend);
+    })
+
 
     socket.on("disconnect", () => {
         onlineUsers.delete(socket.id);

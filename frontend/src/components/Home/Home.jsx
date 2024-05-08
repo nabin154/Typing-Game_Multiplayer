@@ -8,12 +8,14 @@ import { useTypingData } from '../../Context/DataProvider';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { BACKEND_URL } from '../../utils/constant';
+import { useToast } from '../../Context/ToastProvider';
 var socket;
 
 const Home = () => {
     const navigate = useNavigate();
-    const { setUser ,user  , setOnlineUsers} = useUser();
+    const { setUser ,user  , setOnlineUsers , setChallengerData} = useUser();
     const { setWidth } = useTypingData();
+    const {showToast } = useToast();
     const [testStarted, setTestStarted] = useState(false);
 
     useEffect(() => {
@@ -27,7 +29,23 @@ const Home = () => {
             setOnlineUsers(data);
        
         });
+
+        socket.on('challenge received',(data)=>{
+            setChallengerData(prev => ({ ...prev, challenger: data._id ,user: data}));
+           showToast("Someone Challenged you",'warning',3000);
+        });
+        socket.on('challenge connected',(data)=>{
+            setChallengerData(prev => ({ ...prev, user: data }));
+
+            
+           showToast("Challenge accepted",'success',3000);
+        })
+        socket.on('challenge cancelled',(data)=>{
+            setChallengerData(null);
+           showToast("Challenge cancelled",'error',3000);
+        })
     }
+
 
         return () => {
             socket.disconnect();
