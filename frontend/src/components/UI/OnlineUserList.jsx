@@ -1,13 +1,18 @@
 import React from 'react';
 import { useUser } from '../../Context/UserProvider';
+import { useNavigate } from 'react-router-dom';
+import { useTypingData } from '../../Context/DataProvider';
 
 const OnlineUserList = () => {
+  const navigate = useNavigate();
   const { onlineUsers, socket ,user ,setChallengerData} = useUser();
+  const { setTestStarted } = useTypingData();
 
   const handleChallenge = (friend) => {
     const data = {id: friend._id , user: user};
     socket.emit("challenge", data);
     setChallengerData(prev => ({ ...prev, challenger: user._id }));
+  
   }
 
   return (

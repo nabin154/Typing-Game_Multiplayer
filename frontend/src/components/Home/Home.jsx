@@ -13,10 +13,9 @@ var socket;
 
 const Home = () => {
     const navigate = useNavigate();
-    const { setUser ,user  , setOnlineUsers , setChallengerData} = useUser();
-    const { setWidth } = useTypingData();
+    const { setUser ,user  , setOnlineUsers , challengerData, setChallengerData} = useUser();
+    const { setWidth, setTestStarted ,testStarted ,setParagraph, setDifficultyMode} = useTypingData();
     const {showToast } = useToast();
-    const [testStarted, setTestStarted] = useState(false);
 
     useEffect(() => {
         socket = io(BACKEND_URL);
@@ -36,14 +35,21 @@ const Home = () => {
         });
         socket.on('challenge connected',(data)=>{
             setChallengerData(prev => ({ ...prev, user: data }));
-
-            
+            navigate('/home');
+            setTestStarted(true);
            showToast("Challenge accepted",'success',3000);
         })
         socket.on('challenge cancelled',(data)=>{
-            setChallengerData(null);
+            setChallengerData({ challenger: '', user: '', mode: '', paragraph: null });
            showToast("Challenge cancelled",'error',3000);
-        })
+        });
+
+            socket.on('test started', (data) => {
+                console.log("here");
+                const { mode, user, paragraph } = data;
+                setChallengerData(prev => ({ ...prev, mode: mode, paragraph:paragraph }));
+
+            })
     }
 
 
@@ -100,7 +106,7 @@ const Home = () => {
 
                     <main>
                         <div>
-                            <button className='mt-8 sm:mt-14 md:mt-20 px-4 py-2 md:px-6 md:py-3 mb-3 md:mb-0 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md md:text-lg hover:bg-purple-500'
+                            <button  className='mt-8 sm:mt-14 md:mt-20 px-4 py-2 md:px-6 md:py-3 mb-3 md:mb-0 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md md:text-lg hover:bg-purple-500'
                                 onClick={handleTestStart}>Start Your Test <VscDebugStart size={'21px'} className='ml-2' /></button>
                         </div>
                     </main>

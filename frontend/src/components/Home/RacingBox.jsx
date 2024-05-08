@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import RacerUser from './RacerUser'
 import { useTypingData } from '../../Context/DataProvider';
+import { useUser } from '../../Context/UserProvider';
+import RacerChallengerUser from './RacerChallengerUser';
 
 const RacingBox = ({ startTest, startTimer, completed, setCompleted }) => {
     const { seconds, setSeconds } = useTypingData();
+    const { challengerData } = useUser();
 
 //Timer for the typing : time
     useEffect(() => {
@@ -54,6 +57,9 @@ const RacingBox = ({ startTest, startTimer, completed, setCompleted }) => {
                 <p className={`absolute right-2 top-0 ${seconds < 10 ? 'text-red-600' : 'text-purple-500'} font-semibold`}>{formatTime(seconds)}</p>
                 <div className=' h-[200px] w-[350px] max-w-96 mt-3 bg-rightGradientColor flex items-center flex-col rounded-xl '>
                     <RacerUser />
+                    {challengerData && challengerData.user &&
+                    <RacerChallengerUser />
+}
                 </div>
             </div>
 

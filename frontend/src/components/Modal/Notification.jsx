@@ -1,26 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../Context/UserProvider';
+import { useNavigate } from 'react-router-dom';
+import { useTypingData } from '../../Context/DataProvider';
 
 const Notification = () => {
+    const navigate = useNavigate();
+    const { setTestStarted } = useTypingData();
     const { challengerData,setChallengerData ,socket ,user } = useUser();
     const [showModal , setShowModal ] = useState(false);
 
     useEffect(()=>{
-        if(challengerData && user && challengerData.challenger !== user._id )  {
+        if(challengerData && challengerData.user && user && challengerData.challenger !== user._id )  {
         setShowModal(true);
         }
-    },[challengerData])
+    },[challengerData.user])
 
     const handleAccept = ()=>{
         const data = { challenger: challengerData.user  ,user :user}
-        socket.emit("challenge accepted", data); //// need to sent as the object 
+        socket.emit("challenge accepted", data);
         setShowModal(false);
+        navigate('/home');
+        setTestStarted(true);
 
     }
     const handleReject = ()=>{
         socket.emit("challenge rejected", challengerData.user);
         setShowModal(false);
-        setChallengerData(null);
+        setChallengerData({challenger : '' , user:'' ,mode:'' , paragraph: null});
 
     }
 

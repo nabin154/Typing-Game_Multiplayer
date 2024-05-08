@@ -6,12 +6,13 @@ import CompletedModal from '../Modal/CompletedModal';
 import { addStats } from '../../API/apis';
 import { useUser } from '../../Context/UserProvider';
 import { paragraphs, timeForModes } from '../../data/paragraph';
-import Notification from '../Modal/Notification';
+
+
 
 const TypingTest = () => {
-    const { startTestTime, setStartTestTime, margin, setMargin, seconds, setSeconds, difficultyMode } = useTypingData();
+    const {user ,setOnlineUsers ,challengerData ,setChallengerData ,socket } = useUser();
+    const { startTestTime, setStartTestTime, margin, setMargin,paragraph,setParagraph , seconds, setSeconds,setDifficultyMode ,difficultyMode } = useTypingData();
     const { showToast } = useToast();
-    const [paragraph, setParagraph] = useState('');
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
     const [typedText, setTypedText] = useState('');
@@ -21,6 +22,15 @@ const TypingTest = () => {
     const [wpm, setWpm] = useState(0);
     const [timeTaken, setTimeTaken] = useState();
 
+    useEffect(() => {
+       if(challengerData.mode && challengerData.paragraph)
+        {
+            setParagraph(challengerData.paragraph);
+            setDifficultyMode(challengerData.mode);
+            handleStart();
+        }
+    },[challengerData.mode ,challengerData.paragraph]);
+
 
     const getParagraph = () => {
         const paragraphsData = paragraphs[difficultyMode];
@@ -28,11 +38,13 @@ const TypingTest = () => {
         return paragraphsData[index];
     }
 
-
     useEffect(() => {
         setParagraph(getParagraph());
         setSeconds(timeForModes[difficultyMode]);
     }, [difficultyMode]);
+
+
+ 
 
     //CountDown Timer when start button is clicked
     useEffect(() => {
@@ -145,6 +157,18 @@ const TypingTest = () => {
 
     //function to start and reset typing
     const handleStart = () => {
+        if( challengerData.challenger !== user._id && !challengerData.mode && !challengerData.paragraph) {
+            showToast("Your challenger will start the game!", 'warning' ,4000);
+            return;
+        }
+        if (!challengerData.mode && !challengerData.paragraph) {
+            const data = {
+                mode: difficultyMode,
+                paragraph:paragraph,
+                user: challengerData.user,
+            };
+            socket.emit("game started" , data );
+        }
         setStartTest(!startTest);
         setCompleted(false);
         if (startTest) {
@@ -183,7 +207,8 @@ const TypingTest = () => {
                         <span className='absolute top-[25%] left-[50%] text-red-500 text-6xl font-bold'>{startTimer}</span>
                     }
                     <p className='text-white font-rubik text-xl'>{renderParagraph(paragraph)}</p>
-                    <button className='mt-10 px-6 py-2 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md hover:bg-purple-500'
+                    <button 
+                    className='mt-10 px-6 py-2 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md hover:bg-purple-500'
                         onClick={handleStart}>{!startTest ? 'Start Now' : 'Retry'}</button>
                 </div>
                 <div className='flex gap-6 px-14 items-center'>

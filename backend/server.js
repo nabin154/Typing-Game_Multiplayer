@@ -72,6 +72,11 @@ socket.to(challenger._id).emit('challenge connected', user);
     socket.on('challenge rejected',(friend)=>{
 socket.to(friend._id).emit('challenge cancelled', friend);
     })
+    socket.on('game started',(data)=>{
+        console.log('aayio')
+        const { user} = data;
+socket.to(user._id).emit('test started', data);
+    })
 
 
     socket.on("disconnect", () => {
