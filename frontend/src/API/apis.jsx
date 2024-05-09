@@ -69,7 +69,7 @@ export const fetchTableData = async () => {
 export const uploadCloudinary = async (pics) => {
 
     if (!pics)  return;
-    if (!pics.type.startsWith("image/"))  return;
+    if (!pics.type.startsWith("image/"))  return false;
 
     const data = new FormData();
     data.append("file", pics);

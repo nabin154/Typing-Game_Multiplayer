@@ -19,39 +19,49 @@ const Form = () => {
   const { showToast } = useToast();
   const [selectedImage, setSelectedImage] = useState();
   const [isSignupPage, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-const signUpUser = async( data)=>{
-  let postData = {};
+  const signUpUser = async (data) => {
+    setLoading(true);
+    let postData = {};
 
-  const imageUrl = await uploadCloudinary(selectedImage);
-  if (imageUrl) {
-    postData = { ...data, image: imageUrl };
-    try {
-      const response = await signUp(postData);
-      if (response.status >= 200 && response.status < 300) {
-        const message = response.data.message;
-        showToast(message, 'success', 4000);
-        reset();
-      } else if (response.status === 400) {
-        const error = response.data.message || 'Error while creating the user';
-        showToast(error, 'error', 4000);
-      } else {
-        const error = response.data.message || 'An error occurred';
-        showToast(error, 'error', 4000);
+    const imageUrl = await uploadCloudinary(selectedImage);
+    if (imageUrl) {
+      postData = { ...data, image: imageUrl };
+      try {
+        const response = await signUp(postData);
+        if (response.status >= 200 && response.status < 300) {
+          const message = response.data.message;
+          showToast(message, 'success', 4000);
+          setLoading(false);
+          reset();
+        } else if (response.status === 400) {
+          const error = response.data.message || 'Error while creating the user';
+          showToast(error, 'error', 4000);
+        } else {
+          const error = response.data.message || 'An error occurred';
+          showToast(error, 'error', 4000);
+        }
+
       }
+      catch (error) {
+        let err = error.response.data.message;
+        showToast(err, 'error', 5000);
+      }
+    } else {
+      showToast("Image Required!", 'error', 3000);
     }
-    catch (error) {
-      let err = error.response.data.message;
-      showToast(err, 'error', 5000);
-    }
-  }
-}
-const loginUser = async( data)=>{
+    setLoading(false);
+
+  };
+
+
+  const loginUser = async (data) => {
 
     try {
       const response = await login(data);
       if (response.status >= 200 && response.status < 300) {
-        localStorage.setItem('userInfo' ,JSON.stringify(response.data.data));
+        localStorage.setItem('userInfo', JSON.stringify(response.data.data));
         navigate('/home');
         const message = response.data.message;
         showToast(message, 'success', 4000);
@@ -73,16 +83,15 @@ const loginUser = async( data)=>{
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
-    const {name , ...rest} = data;
-    isSignupPage? signUpUser(data) : loginUser(rest);
-    
+    const { name, ...rest } = data;
+    isSignupPage ? signUpUser(data) : loginUser(rest);
+
   };
 
 
 
   return (
-    <div className='custom-gradient w-full min-h-screen flex items-center justify-center pb-4' >
-
+    <div className='custom-gradient w-full min-h-screen flex items-center justify-center pb-4 relative' >
       <section className='min-w-80 sm:min-w-96  max-w-xl md:max-w-3xl  flex flex-col md:flex-row items-center'>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <div className='min-h-96 w-full bg-rightGradientColor flex flex-col gap-4 shadow-purple-400 shadow-md px-10 py-6 mt-10 rounded-xl items-center  '>
@@ -153,7 +162,7 @@ const loginUser = async( data)=>{
               </div>
             }
 
-            <button type='submit' className='border px-8 rounded-md shadow-lg tracking-wide bg-purple-600 text-md font-semibold py-1 border-none text-white hover:bg-purple-800'>SUBMIT</button>
+            <button type='submit' className='border px-8 rounded-md shadow-lg tracking-wide bg-purple-600 text-md font-semibold py-1 border-none text-white hover:bg-purple-800'> {loading ? 'Loading...' : 'SUBMIT'}</button>
 
             <span className='text-white underline cursor-pointer' onClick={() => setIsSignUp(!isSignupPage)}>{isSignupPage ? "Already have an account?" : "Don't have an account?"}</span>
           </div>

@@ -12,7 +12,7 @@ import WinnerModal from '../Modal/WinnerModal';
 
 const TypingTest = () => {
     const { user, setOnlineUsers, challengerData, setChallengerData, socket } = useUser();
-    const { startTestTime, setStartTestTime, completed,setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode } = useTypingData();
+    const { startTestTime, setStartTestTime, completed, setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode, setWinnerData } = useTypingData();
     const { showToast } = useToast();
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
@@ -23,6 +23,7 @@ const TypingTest = () => {
     const [wpm, setWpm] = useState(0);
     const [timeTaken, setTimeTaken] = useState();
 
+    //to start the game when opponent accepts and accepted event is received
     useEffect(() => {
         if (challengerData.mode && challengerData.paragraph) {
             setParagraph(challengerData.paragraph);
@@ -31,13 +32,14 @@ const TypingTest = () => {
         }
     }, [challengerData.mode, challengerData.paragraph]);
 
-
+//to get the paragraph
     const getParagraph = () => {
         const paragraphsData = paragraphs[difficultyMode];
         const index = Math.floor(Math.random() * paragraphsData.length);
         return paragraphsData[index];
-    }
+    };
 
+//to dynamically change the paragraph
     useEffect(() => {
         setParagraph(getParagraph());
         setSeconds(timeForModes[difficultyMode]);
@@ -57,7 +59,7 @@ const TypingTest = () => {
         }
     }, [startTest, startTimer]);
 
-
+//to post the data in the database when completed
     const postStats = async () => {
         let data = {
             mode: difficultyMode,
@@ -79,6 +81,7 @@ const TypingTest = () => {
 
     //calculating the words per minutes
     const calculateWPM = () => {
+        if ((completed && seconds <= 0 ) || (completed && typedText.length === paragraph.length  )) {
         const endTime = new Date();
         const timeInSeconds = (endTime - startTestTime) / 1000;
         const wordsTyped = typedText.split(' ').length;
@@ -86,6 +89,10 @@ const TypingTest = () => {
         const wpmValue = Math.round(wordsTyped / timeInMinutes);
         setWpm(wpmValue);
         setTimeTaken(Number(timeInSeconds.toFixed(2)));
+        }
+        else{
+            return;
+        }
 
     };
 
@@ -95,23 +102,18 @@ const TypingTest = () => {
         if (completed && !wpm && !timeTaken) {
             calculateWPM();
         }
-        if (completed && challengerData && challengerData.user) {
-            if (wpm && timeTaken) {
+        if (completed && challengerData && challengerData.user && wpm && timeTaken) {
                 const data = { wpm: wpm, timeTaken: timeTaken, errors: errorCount, id: challengerData.user._id }
                 socket.emit('completed', data);
-            }
         }
-
     }, [completed, challengerData, wpm, timeTaken]);
 
-    //to post the data to the database
+    //to post the data to the database conditionally
     useEffect(() => {
-        if ((completed && seconds <= 0) || (completed && typedText.length === paragraph.length)) {
-            if (wpm && timeTaken && !challengerData.user) {
+        if ((completed && seconds <= 0 && wpm && timeTaken && !challengerData.user) || (completed && typedText.length === paragraph.length && wpm && timeTaken && !challengerData.user) ){
                 setTimeout(() => {
                     postStats();
                 }, 1000);
-            }
         }
     }, [calculateWPM]);
 
@@ -210,6 +212,7 @@ const TypingTest = () => {
         setSeconds(timeForModes[difficultyMode]);
         setTimeTaken(null);
         setChallengerData({ challenger: '', user: '', mode: '', paragraph: null });
+        setWinnerData({ wpm: 0, errors: null, timeTaken: null });
 
     }
 

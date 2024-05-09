@@ -34,19 +34,19 @@ const Notification = () => {
         <>
             {challengerData && challengerData.user && showModal &&
                 <div className="fixed inset-0 flex  items-center justify-center bg-black bg-opacity-50 z-10">
-                    <div className="bg-white p-8 rounded-lg w-80 flex flex-col items-center">
+                    <div className="bg-white p-8 rounded-lg w-80 flex flex-col items-center custom-table-gradient border">
                         <div className="w-full text-center font-rubik">
-                            <h2 className="text-lg font-semibold ">{challengerData.user.name.split(' ')[0]} challenged you !</h2>
+                            <h2 className="text-lg font-semibold text-white ">{challengerData.user.name.split(' ')[0]} challenged you !</h2>
                             
                         </div>
-                        <img src={challengerData.user.image} alt={challengerData.user.name} className="mt-4 w-32 h-32 object-cover mb-4 rounded-full" />
+                        <img src={challengerData.user.image} alt={challengerData.user.name} className=" shadow-md shadow-white mt-4 w-32 h-32 object-cover mb-4 rounded-full" />
                         <div className="flex justify-between w-full">
                             <button 
-                            onClick={handleAccept} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 mr-2">
+                            onClick={handleAccept} className="px-4 py-2 bg-green-500 font-semibold text-white rounded-md hover:bg-green-600 mr-2">
                                 Accept
                             </button>
                             <button onClick={handleReject}
-                             className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 ml-2">
+                                className="px-4 py-2 bg-red-500 font-semibold text-white rounded-md hover:bg-red-600 ml-2">
                                 Reject
                             </button>
                         </div>

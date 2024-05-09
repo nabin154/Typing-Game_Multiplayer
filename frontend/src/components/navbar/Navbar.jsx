@@ -5,9 +5,11 @@ import logo from '../../assets/logo.png'
 import NavList from './NavList';
 import { useTypingData } from '../../Context/DataProvider';
 import { logout } from '../../API/apis';
+import { useUser } from '../../Context/UserProvider';
 
 const Navbar = () => {
-    const { setWidth } = useTypingData();
+    const { setWidth  } = useTypingData();
+    const { socket, user } = useUser();
     const navigate = useNavigate();
     const [isMenuToggled, setIsMenuToggled] = useState(false);
 
@@ -22,6 +24,7 @@ const Navbar = () => {
         if (response){
         localStorage.removeItem("userInfo");
         setWidth(0);
+        socket.emit('logout' ,user);
         navigate('/');
         }
         else{

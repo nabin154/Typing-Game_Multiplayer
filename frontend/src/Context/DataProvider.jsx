@@ -12,7 +12,7 @@ const DataProvider = ({children}) => {
   const [width, setWidth] = useState(0);
   const [paragraph, setParagraph] = useState('');
   const [challengerMargin , setChallengerMargin] = useState();
-  const [winnerData  ,setWinnerData] = useState({wpm:null,errors:null,timeTaken:null});
+  const [winnerData  ,setWinnerData] = useState({wpm:0,errors:null,timeTaken:null});
 
 
 

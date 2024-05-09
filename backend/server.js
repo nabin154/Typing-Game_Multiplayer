@@ -89,6 +89,19 @@ io.on("connection", (socket) => {
     });
 
 
+    socket.on("logout", (userData) => {
+        const socketIdToRemove = Array.from(onlineUsers.entries()).find(
+            ([_, user]) => user._id === userData._id
+        )?.[0];
+
+        if (socketIdToRemove) {
+            onlineUsers.delete(socketIdToRemove);
+            io.emit("online users", Array.from(onlineUsers));
+
+            socket.leave(userData._id);
+        }
+    });
+
     socket.on("disconnect", () => {
         onlineUsers.delete(socket.id);
         io.emit("online users", Array.from(onlineUsers));
