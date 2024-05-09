@@ -77,7 +77,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const createNewToken = asyncHandler(async (req, res) => {
     const { refreshToken } = req.cookies;
 
-    if (!refreshToken) {
+    if (!refreshToken) {  
         return res.status(403).json(failedResponse('RefreshToken is missing!'));
     }
 

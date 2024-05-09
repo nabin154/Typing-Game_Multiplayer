@@ -10,7 +10,7 @@ const StatsTable = () => {
             const response = await fetchTableData();
             if (response) {
                 const data = response.data;
-                setTableData(data.data);
+                setTableData(data.data.reverse());
 
             } else {
                 console.log(response.data.message);

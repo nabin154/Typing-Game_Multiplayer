@@ -39,6 +39,7 @@ if(isDisabled){
           className='px-3 py-1 text-sm bg-purple-500 rounded-lg' onClick={() => handleChallenge(userData)}>Challenge</button>
         </div>
       ))}
+    
     </div>
   );
 }

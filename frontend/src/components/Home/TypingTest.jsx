@@ -107,7 +107,7 @@ const TypingTest = () => {
     //to post the data to the database
     useEffect(() => {
         if ((completed && seconds <= 0) || (completed && typedText.length === paragraph.length)) {
-            if (wpm && timeTaken) {
+            if (wpm && timeTaken && !challengerData.user) {
                 setTimeout(() => {
                     postStats();
                 }, 1000);
@@ -148,7 +148,7 @@ const TypingTest = () => {
                 const data = { id: challengerData.user._id, margin: margin };
                 socket.emit("margin", data);
             }
-            return
+            return;
         }
 
     };
