@@ -13,51 +13,69 @@ var socket;
 
 const Home = () => {
     const navigate = useNavigate();
-    const { setUser ,user  , setOnlineUsers , challengerData, setChallengerData} = useUser();
-    const { setWidth, setTestStarted ,testStarted ,setParagraph, setDifficultyMode} = useTypingData();
-    const {showToast } = useToast();
+    const { setUser, user, setOnlineUsers, challengerData, setChallengerData } = useUser();
+    const { setWidth, setTestStarted, testStarted, setParagraph, setDifficultyMode, setChallengerMargin, setWinnerData, setCompleted } = useTypingData();
+    const { showToast } = useToast();
 
     useEffect(() => {
         socket = io(BACKEND_URL);
-        if(user){
-        socket.emit('setup' , user);
-        socket.on("online users" ,(userdata)=>{
+        if (user) {
+            socket.emit('setup', user);
+            socket.on("online users", (userdata) => {
 
-            const data = userdata.filter(([id ,{_id} ])=>{
-            return _id != user._id});
-            setOnlineUsers(data);
-       
-        });
+                const data = userdata.filter(([id, { _id }]) => {
+                    return _id != user._id
+                });
+                setOnlineUsers(data);
+            });
 
-        socket.on('challenge received',(data)=>{
-            setChallengerData(prev => ({ ...prev, challenger: data._id ,user: data}));
-           showToast("Someone Challenged you",'warning',3000);
-        });
-        socket.on('challenge connected',(data)=>{
-            setChallengerData(prev => ({ ...prev, user: data }));
-            navigate('/home');
-            setTestStarted(true);
-           showToast("Challenge accepted",'success',3000);
-        })
-        socket.on('challenge cancelled',(data)=>{
-            setChallengerData({ challenger: '', user: '', mode: '', paragraph: null });
-           showToast("Challenge cancelled",'error',3000);
-        });
+            socket.on('challenge received', (data) => {
+                setChallengerData(prev => ({ ...prev, challenger: data._id, user: data }));
+            });
+            socket.on('challenge connected', (data) => {
+                setChallengerData(prev => ({ ...prev, user: data }));
+                navigate('/home');
+                setTestStarted(true);
+                showToast("Challenge accepted", 'success', 3000);
+            })
+            socket.on('challenge cancelled', (data) => {
+                setChallengerData({ challenger: '', user: '', mode: '', paragraph: null });
+                showToast("Challenge cancelled", 'error', 3000);
+            });
 
             socket.on('test started', (data) => {
                 console.log("here");
                 const { mode, user, paragraph } = data;
-                setChallengerData(prev => ({ ...prev, mode: mode, paragraph:paragraph }));
+                setChallengerData(prev => ({ ...prev, mode: mode, paragraph: paragraph }));
 
             })
-    }
 
+            socket.on('take margin', (data) => {
+                console.log("margin ko aayo");
+                const { id ,margin } = data;
+               setChallengerMargin(margin);
 
+            })
+
+            socket.on('completed game', (data) => {
+
+                const {wpm ,errors ,timeTaken} = data;
+                console.log("completed game");
+                setWinnerData({
+                wpm:wpm,
+                errors:errors,
+                timeTaken: timeTaken
+
+                });
+                setCompleted(true);
+
+            })
+        }
         return () => {
             socket.disconnect();
         };
 
-    },[user]);
+    }, [user]);
 
     const handleTestStart = () => {
         setTestStarted(true);
@@ -84,9 +102,6 @@ const Home = () => {
         getUserDetails();
     }, [navigate]);
 
-    
-
-
 
     return (
         <div className='custom-gradient  w-full mt-[1px]' style={{ minHeight: 'calc(100vh - 80px)' }}>
@@ -106,7 +121,7 @@ const Home = () => {
 
                     <main>
                         <div>
-                            <button  className='mt-8 sm:mt-14 md:mt-20 px-4 py-2 md:px-6 md:py-3 mb-3 md:mb-0 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md md:text-lg hover:bg-purple-500'
+                            <button className='mt-8 sm:mt-14 md:mt-20 px-4 py-2 md:px-6 md:py-3 mb-3 md:mb-0 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md md:text-lg hover:bg-purple-500'
                                 onClick={handleTestStart}>Start Your Test <VscDebugStart size={'21px'} className='ml-2' /></button>
                         </div>
                     </main>

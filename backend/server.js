@@ -19,11 +19,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: REACT_APP_URL,
-    credentials  : true
+    credentials: true
 }))
 connectDB();
 
-app.get('/' , (req, res)=>{
+app.get('/', (req, res) => {
     res.send(" hello from the server.")
 });
 
@@ -37,7 +37,7 @@ app.use(routeNotFound);
 app.use(errorHandler);
 
 const port = PORT || 5001;
-server.listen(port , ()=>{
+server.listen(port, () => {
     console.log(`Server is listening at port ${port}`.yellow.bold);
 });
 
@@ -54,29 +54,39 @@ const io = socketIo(server, {
 io.on("connection", (socket) => {
     console.log('socket connected');
 
-    socket.on('setup' ,(userData)=>{
+    socket.on('setup', (userData) => {
         socket.join(userData._id);
-        onlineUsers.set(socket.id , userData);
+        onlineUsers.set(socket.id, userData);
         console.log("user connected", userData._id);
-        io.emit("online users" , Array.from(onlineUsers));
+        io.emit("online users", Array.from(onlineUsers));
     });
 
-    socket.on('challenge',(data)=>{
-        const {id , user} = data;
-socket.to(id).emit('challenge received', user);
+    socket.on('challenge', (data) => {
+        const { id, user } = data;
+        socket.to(id).emit('challenge received', user);
     })
-    socket.on('challenge accepted', (data)=>{
+    socket.on('challenge accepted', (data) => {
         const { challenger, user } = data;
-socket.to(challenger._id).emit('challenge connected', user);
+        socket.to(challenger._id).emit('challenge connected', user);
     })
-    socket.on('challenge rejected',(friend)=>{
-socket.to(friend._id).emit('challenge cancelled', friend);
+    socket.on('challenge rejected', (friend) => {
+        socket.to(friend._id).emit('challenge cancelled', friend);
     })
-    socket.on('game started',(data)=>{
+    socket.on('game started', (data) => {
         console.log('aayio')
-        const { user} = data;
-socket.to(user._id).emit('test started', data);
+        const { user } = data;
+        socket.to(user._id).emit('test started', data);
     })
+    socket.on('margin', (data) => {
+        console.log('margin')
+        const { id, margin } = data;
+        socket.to(id).emit('take margin', data);
+    })
+    socket.on('completed', (data) => {
+        console.log('completed')
+        const { id } = data;
+        socket.to(id).emit('completed game', data);
+    });
 
 
     socket.on("disconnect", () => {

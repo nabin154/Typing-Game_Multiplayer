@@ -4,13 +4,15 @@ const typingContext = createContext();
 
 const DataProvider = ({children}) => {
   const [testStarted, setTestStarted] = useState(false);
-
+  const [completed, setCompleted] = useState(false);
   const [startTestTime , setStartTestTime] = useState(null);
   const [margin , setMargin] = useState(0);
   const [seconds, setSeconds] = useState(5);
   const [difficultyMode , setDifficultyMode] = useState('easy');
   const [width, setWidth] = useState(0);
   const [paragraph, setParagraph] = useState('');
+  const [challengerMargin , setChallengerMargin] = useState();
+  const [winnerData  ,setWinnerData] = useState({wpm:null,errors:null,timeTaken:null});
 
 
 
@@ -30,7 +32,13 @@ const DataProvider = ({children}) => {
       width,
       setWidth,
       paragraph,
-      setParagraph
+      setParagraph,
+      challengerMargin,
+      setChallengerMargin,
+      winnerData,
+      setWinnerData,
+      completed,
+      setCompleted,
     }}>
       {children}
     </typingContext.Provider>

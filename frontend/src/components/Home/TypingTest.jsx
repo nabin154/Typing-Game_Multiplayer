@@ -6,30 +6,30 @@ import CompletedModal from '../Modal/CompletedModal';
 import { addStats } from '../../API/apis';
 import { useUser } from '../../Context/UserProvider';
 import { paragraphs, timeForModes } from '../../data/paragraph';
+import WinnerModal from '../Modal/WinnerModal';
 
 
 
 const TypingTest = () => {
-    const {user ,setOnlineUsers ,challengerData ,setChallengerData ,socket } = useUser();
-    const { startTestTime, setStartTestTime, margin, setMargin,paragraph,setParagraph , seconds, setSeconds,setDifficultyMode ,difficultyMode } = useTypingData();
+    const { user, setOnlineUsers, challengerData, setChallengerData, socket } = useUser();
+    const { startTestTime, setStartTestTime, completed,setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode } = useTypingData();
     const { showToast } = useToast();
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
     const [typedText, setTypedText] = useState('');
     const [errorCount, setErrorCount] = useState(0);
     const [classType, setClassType] = useState('bright');
-    const [completed, setCompleted] = useState(false);
+    
     const [wpm, setWpm] = useState(0);
     const [timeTaken, setTimeTaken] = useState();
 
     useEffect(() => {
-       if(challengerData.mode && challengerData.paragraph)
-        {
+        if (challengerData.mode && challengerData.paragraph) {
             setParagraph(challengerData.paragraph);
             setDifficultyMode(challengerData.mode);
             handleStart();
         }
-    },[challengerData.mode ,challengerData.paragraph]);
+    }, [challengerData.mode, challengerData.paragraph]);
 
 
     const getParagraph = () => {
@@ -44,7 +44,7 @@ const TypingTest = () => {
     }, [difficultyMode]);
 
 
- 
+
 
     //CountDown Timer when start button is clicked
     useEffect(() => {
@@ -92,11 +92,17 @@ const TypingTest = () => {
 
     // after completion rendering
     useEffect(() => {
-        if (completed) {
+        if (completed && !wpm && !timeTaken) {
             calculateWPM();
         }
+        if (completed && challengerData && challengerData.user) {
+            if (wpm && timeTaken) {
+                const data = { wpm: wpm, timeTaken: timeTaken, errors: errorCount, id: challengerData.user._id }
+                socket.emit('completed', data);
+            }
+        }
 
-    }, [completed]);
+    }, [completed, challengerData, wpm, timeTaken]);
 
     //to post the data to the database
     useEffect(() => {
@@ -138,6 +144,10 @@ const TypingTest = () => {
         let length = typedText.split(' ').length;
         if (typedChar === ' ' && (length % 2) === 0 && margin < 90) {
             setMargin(prevMargin => prevMargin + 2);
+            if (challengerData && challengerData.user) {
+                const data = { id: challengerData.user._id, margin: margin };
+                socket.emit("margin", data);
+            }
             return
         }
 
@@ -157,17 +167,17 @@ const TypingTest = () => {
 
     //function to start and reset typing
     const handleStart = () => {
-        if( challengerData.challenger !== user._id && !challengerData.mode && !challengerData.paragraph) {
-            showToast("Your challenger will start the game!", 'warning' ,4000);
+        if (challengerData.challenger && challengerData.user && challengerData.challenger !== user._id && !challengerData.mode && !challengerData.paragraph) {
+            showToast("Your challenger will start the game!", 'warning', 4000);
             return;
         }
-        if (!challengerData.mode && !challengerData.paragraph) {
+        if (challengerData.user && !challengerData.mode && !challengerData.paragraph) {
             const data = {
                 mode: difficultyMode,
-                paragraph:paragraph,
+                paragraph: paragraph,
                 user: challengerData.user,
             };
-            socket.emit("game started" , data );
+            socket.emit("game started", data);
         }
         setStartTest(!startTest);
         setCompleted(false);
@@ -185,6 +195,8 @@ const TypingTest = () => {
         }
     };
 
+
+    // resetting everything to initial state
     const handleClose = () => {
         setCompleted(false);
         setStartTest(false);
@@ -197,6 +209,8 @@ const TypingTest = () => {
         setMargin(0);
         setSeconds(timeForModes[difficultyMode]);
         setTimeTaken(null);
+        setChallengerData({ challenger: '', user: '', mode: '', paragraph: null });
+
     }
 
     return (
@@ -207,8 +221,8 @@ const TypingTest = () => {
                         <span className='absolute top-[25%] left-[50%] text-red-500 text-6xl font-bold'>{startTimer}</span>
                     }
                     <p className='text-white font-rubik text-xl'>{renderParagraph(paragraph)}</p>
-                    <button 
-                    className='mt-10 px-6 py-2 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md hover:bg-purple-500'
+                    <button
+                        className='mt-10 px-6 py-2 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md hover:bg-purple-500'
                         onClick={handleStart}>{!startTest ? 'Start Now' : 'Retry'}</button>
                 </div>
                 <div className='flex gap-6 px-14 items-center'>
@@ -225,12 +239,20 @@ const TypingTest = () => {
                     setCompleted={setCompleted} />
             </section>
             <section>
-                <CompletedModal
-                    completed={completed}
-                    handleClose={handleClose}
-                    wpm={wpm}
-                    timeTaken={timeTaken}
-                    errorCount={errorCount} />
+                {completed && challengerData && challengerData.user ?
+                    <WinnerModal 
+                        completed={completed}
+                        handleClose={handleClose}
+                        wpm={wpm}
+                        timeTaken={timeTaken}
+                        errorCount={errorCount} /> :
+                    <CompletedModal
+                        completed={completed}
+                        handleClose={handleClose}
+                        wpm={wpm}
+                        timeTaken={timeTaken}
+                        errorCount={errorCount} />
+                }
             </section>
         </div>
     );
