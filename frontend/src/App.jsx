@@ -8,6 +8,7 @@ import Toast from "./components/UI/Toast";
 import UserProvider from "./Context/UserProvider";
 import Protected from "./components/Authentication/Protected";
 import Notification from "./components/Modal/Notification";
+import GoogleLogin from "./components/Authentication/GoogleLogin";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<LoginSignupPage />} />
+          <Route path={"/googlelogin"} element={<GoogleLogin />} />
               <Route path={"/home"} element={<Protected> <HomePage /></Protected>} />
               <Route path={"/stats"} element={<Protected> <StatsPage /></Protected>} />
         </Routes>

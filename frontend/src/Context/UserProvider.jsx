@@ -11,12 +11,14 @@ const UserProvider = ({ children }) => {
     const [onlineUsers, setOnlineUsers] = useState();
 
     useEffect(() => {
+        if(user){
         socket.current = io(BACKEND_URL);
         return () => {
            
             socket.current.disconnect();
         };
-    }, []);
+    }
+    }, [user]);
 
     return (
         <userContext.Provider value={{

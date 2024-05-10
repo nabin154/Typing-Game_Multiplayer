@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { FaSquareFacebook } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '../../Context/ToastProvider';
 import { useForm } from "react-hook-form"
 import { login, signUp, uploadCloudinary } from '../../API/apis';
+import axiosInstance from '../../utils/axiosInstance';
 
 
 const Form = () => {
@@ -87,6 +88,52 @@ const Form = () => {
     isSignupPage ? signUpUser(data) : loginUser(rest);
 
   };
+
+  const loginWithGoogle = async () => {
+   
+  //     // Redirect the user to the backend endpoint for Google login
+      window.location.href = 'http://localhost:5000/auth/google/callback',"_self";
+    // try {
+    //   setLoading(true);
+    //   const response = await axiosInstance.get("/google-login-success");
+    //   if (response.status === 200) {
+    //     const { data } = response.data;
+    //     localStorage.setItem('userInfo', JSON.stringify(data));
+    //     navigate('/home'); // Redirect to home page
+    //     showToast('Logged in successfully!', 'success', 4000);
+    //   } else {
+    //     showToast('Failed to login with Google.', 'error', 4000);
+    //   }
+    // } catch (error) {
+    //   showToast('An error occurred while logging in.', 'error', 4000);
+    // } finally {
+    //   setLoading(false);
+    // }
+  
+    };
+
+  // useEffect(() => {
+  //   const handleGoogleLogin = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await axiosInstance.get("/google-login-success"); 
+  //       if (response.status === 200) {
+  //         const { data } = response.data;
+  //         localStorage.setItem('userInfo', JSON.stringify(data));
+  //         navigate('/home'); // Redirect to home page
+  //         showToast('Logged in successfully!', 'success', 4000);
+  //       } else {
+  //         showToast('Failed to login with Google.', 'error', 4000);
+  //       }
+  //     } catch (error) {
+  //       showToast('An error occurred while logging in.', 'error', 4000);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   handleGoogleLogin();
+  // }, [loginWithGoogle]);
 
 
 
@@ -171,11 +218,12 @@ const Form = () => {
         <div className='ml-10'>
           <h3 className='text-xl text-purple-500 text-center '> Or</h3>
 
-          <button className='bg-white text-black ml-4 px-3 p-2 text-center flex items-center rounded-md font-rubik mt-4 '><span className='mr-1'>Login with Google</span> <FcGoogle /></button>
+          <button onClick={loginWithGoogle}
+          className='bg-white text-black ml-4 px-3 p-2 text-center flex items-center rounded-md font-rubik mt-4 '><span className='mr-1'>Login with Google</span> <FcGoogle /></button>
 
           <h3 className='text-xl mt-3 text-purple-500 text-center '> Or</h3>
 
-          <button className='bg-blue-700 text-white ml-4 px-3 p-2 text-center flex items-center rounded-md font-rubik mt-4 '><span className='mr-1' >Login with Facebook</span> <FaSquareFacebook /></button>
+          <button disabled className='bg-blue-700 cursor-not-allowed text-white ml-4 px-3 p-2 text-center flex items-center rounded-md font-rubik mt-4 '><span className='mr-1' >Login with Facebook</span> <FaSquareFacebook /></button>
         </div>
       </section>
     </div>
