@@ -90,52 +90,8 @@ const Form = () => {
   };
 
   const loginWithGoogle = async () => {
-   
-  //     // Redirect the user to the backend endpoint for Google login
       window.location.href = 'http://localhost:5000/auth/google/callback',"_self";
-    // try {
-    //   setLoading(true);
-    //   const response = await axiosInstance.get("/google-login-success");
-    //   if (response.status === 200) {
-    //     const { data } = response.data;
-    //     localStorage.setItem('userInfo', JSON.stringify(data));
-    //     navigate('/home'); // Redirect to home page
-    //     showToast('Logged in successfully!', 'success', 4000);
-    //   } else {
-    //     showToast('Failed to login with Google.', 'error', 4000);
-    //   }
-    // } catch (error) {
-    //   showToast('An error occurred while logging in.', 'error', 4000);
-    // } finally {
-    //   setLoading(false);
-    // }
-  
     };
-
-  // useEffect(() => {
-  //   const handleGoogleLogin = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await axiosInstance.get("/google-login-success"); 
-  //       if (response.status === 200) {
-  //         const { data } = response.data;
-  //         localStorage.setItem('userInfo', JSON.stringify(data));
-  //         navigate('/home'); // Redirect to home page
-  //         showToast('Logged in successfully!', 'success', 4000);
-  //       } else {
-  //         showToast('Failed to login with Google.', 'error', 4000);
-  //       }
-  //     } catch (error) {
-  //       showToast('An error occurred while logging in.', 'error', 4000);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   handleGoogleLogin();
-  // }, [loginWithGoogle]);
-
-
 
   return (
     <div className='custom-gradient w-full min-h-screen flex items-center justify-center pb-4 relative' >

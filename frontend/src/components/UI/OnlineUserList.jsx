@@ -5,25 +5,25 @@ import { useTypingData } from '../../Context/DataProvider';
 
 const OnlineUserList = () => {
   const navigate = useNavigate();
-  const { onlineUsers, socket ,user ,setChallengerData} = useUser();
+  const { onlineUsers, socket, user, setChallengerData } = useUser();
   const { setTestStarted } = useTypingData();
-  const [isDisabled  ,setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
 
-if(isDisabled){
-    setTimeout(() => {
-      setIsDisabled(false);
-    }, 5000);
-    return ()=> clearTimeout()
-  }
-  },[isDisabled])
+    if (isDisabled) {
+      setTimeout(() => {
+        setIsDisabled(false);
+      }, 5000);
+      return () => clearTimeout()
+    }
+  }, [isDisabled])
 
   const handleChallenge = (friend) => {
-    const data = {id: friend._id , user: user};
+    const data = { id: friend._id, user: user };
     socket.emit("challenge", data);
     setChallengerData(prev => ({ ...prev, challenger: user._id }));
-  setIsDisabled(true);
+    setIsDisabled(true);
   }
 
   return (
@@ -36,10 +36,10 @@ if(isDisabled){
             <h2 className='text-green-500 text-sm'>Online</h2>
           </div>
           <button disabled={isDisabled}
-          className='px-3 py-1 text-sm bg-purple-500 rounded-lg' onClick={() => handleChallenge(userData)}>Challenge</button>
+            className='px-3 py-1 text-sm bg-purple-500 rounded-lg' onClick={() => handleChallenge(userData)}>Challenge</button>
         </div>
       ))}
-    
+
     </div>
   );
 }

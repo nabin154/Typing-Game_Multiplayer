@@ -52,19 +52,19 @@ const Home = () => {
 
             socket.on('take margin', (data) => {
                 console.log("margin ko aayo");
-                const { id ,margin } = data;
-               setChallengerMargin(margin);
+                const { id, margin } = data;
+                setChallengerMargin(margin);
 
             })
 
             socket.on('completed game', (data) => {
 
-                const {wpm ,errors ,timeTaken} = data;
+                const { wpm, errors, timeTaken } = data;
                 console.log("completed game");
                 setWinnerData({
-                wpm:wpm,
-                errors:errors,
-                timeTaken: timeTaken
+                    wpm: wpm,
+                    errors: errors,
+                    timeTaken: timeTaken
 
                 });
                 setCompleted(true);
@@ -126,8 +126,6 @@ const Home = () => {
                         </div>
                     </main>
                 </section>
-
-
             }
 
             {/* Test started */}

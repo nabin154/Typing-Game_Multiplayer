@@ -5,7 +5,7 @@ import { useTypingData } from '../../Context/DataProvider';
 const ModesModal = () => {
 
 
-    const { difficultyMode , setDifficultyMode } = useTypingData();
+    const { difficultyMode, setDifficultyMode } = useTypingData();
     const [showModeModal, setShowModeModal] = useState(false);
     const modalRef = useRef(null);
 
@@ -15,9 +15,7 @@ const ModesModal = () => {
                 setShowModeModal(false);
             }
         };
-
         document.addEventListener('mousedown', isClickedOutside);
-
         return () => {
             document.removeEventListener('mousedown', isClickedOutside);
         };
@@ -28,14 +26,13 @@ const ModesModal = () => {
 
     };
 
-    const handleChange = (e) =>{
+    const handleChange = (e) => {
         setDifficultyMode(e.target.value);
-    }
+    };
 
-    const handleClose = () =>{
+    const handleClose = () => {
         setShowModeModal(false);
-    }
-
+    };
     return (
         <div>
             <div onClick={handleModal} className='hover:text-purple-500 flex items-center'>
@@ -85,13 +82,11 @@ const ModesModal = () => {
                             <label htmlFor='difficult' className='cursor-pointer'>Difficult</label>
                         </div>
                     </div>
-                      <button 
-                      onClick={handleClose}
-                      className='absolute top-1 right-1 bg-red-500 px-2 text-sm py-1 rounded-md'>X</button>
+                    <button
+                        onClick={handleClose}
+                        className='absolute top-1 right-1 bg-red-500 px-2 text-sm py-1 rounded-md'>X</button>
                 </div>
-
             )}
-
         </div>
     );
 };

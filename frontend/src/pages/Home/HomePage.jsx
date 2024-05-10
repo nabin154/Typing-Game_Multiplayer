@@ -5,8 +5,8 @@ import Home from '../../components/Home/Home'
 const HomePage = () => {
   return (
     <div>
-          <Navbar />
-          <Home/>
+      <Navbar />
+      <Home />
 
     </div>
   )

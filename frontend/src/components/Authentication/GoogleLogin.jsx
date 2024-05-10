@@ -1,4 +1,3 @@
-// Import necessary modules and components
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../../Context/ToastProvider';
@@ -33,7 +32,7 @@ const GoogleLogin = () => {
     }, [navigate, showToast]);
 
     return (
-        <div>
+        <div className='flex items-start justify-center'>
             {loading ? (
                 <p>Loading...</p>
             ) : (

@@ -5,8 +5,8 @@ import Stats from '../../components/stats/Stats';
 const StatsPage = () => {
   return (
     <div>
-     <Navbar/>
-     <Stats/>
+      <Navbar />
+      <Stats />
     </div>
   )
 }

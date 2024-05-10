@@ -3,7 +3,7 @@ const ToastContext = createContext();
 export const useToast = () => useContext(ToastContext);
 
 const ToastProvider = ({ children }) => {
-    
+
     const [show, setShow] = useState(false);
     const [timer, setTimer] = useState();
     const [message, setMessage] = useState();
@@ -39,7 +39,7 @@ const ToastProvider = ({ children }) => {
     };
 
     const showToast = (message, type, time) => {
-        
+
         setShow(true);
         const bgColorClass = getType(type);
         setTimer(time);
@@ -50,11 +50,11 @@ const ToastProvider = ({ children }) => {
         //     clearTimeout(timer);
         // }
 
-       
-    }
+
+    };
 
     return (
-        <ToastContext.Provider value={{ show, type, handleClick, showToast, message ,setShow ,timer }} >
+        <ToastContext.Provider value={{ show, type, handleClick, showToast, message, setShow, timer }} >
             {children}
         </ToastContext.Provider>
     )

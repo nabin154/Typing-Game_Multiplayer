@@ -30,7 +30,7 @@ export const logout = async (data) => {
 
 
 export const getUser = async () => {
-    const {_id} = JSON.parse(localStorage.getItem('userInfo'));
+    const { _id } = JSON.parse(localStorage.getItem('userInfo'));
     try {
         const response = await axiosInstance.get(`/api/users/${_id}`);
         return response;
@@ -68,8 +68,8 @@ export const fetchTableData = async () => {
 
 export const uploadCloudinary = async (pics) => {
 
-    if (!pics)  return;
-    if (!pics.type.startsWith("image/"))  return false;
+    if (!pics) return;
+    if (!pics.type.startsWith("image/")) return false;
 
     const data = new FormData();
     data.append("file", pics);

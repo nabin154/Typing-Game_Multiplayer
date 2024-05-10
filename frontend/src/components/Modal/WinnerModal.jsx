@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTypingData } from '../../Context/DataProvider';
 import { useUser } from '../../Context/UserProvider';
-import Confetti from 'react-confetti'; 
+import Confetti from 'react-confetti';
 
 const WinnerModal = ({ completed, handleClose, wpm, errorCount, timeTaken }) => {
     const { winnerData } = useTypingData();
@@ -19,11 +19,11 @@ const WinnerModal = ({ completed, handleClose, wpm, errorCount, timeTaken }) => 
         if (challengerData && challengerData.user) {
             return challengerData.user.name.split(" ")[0];
         }
-    }
+    };
 
     return (
         <>
-         
+
             <div className='absolute border h-96 w-[440px] top-1/3 left-1/3 custom-table-gradient z-10 rounded-2xl '>
                 <div className='mt-10 flex flex-col items-center justify-center'>
                     <h1 className='text-3xl text-green-400 font-rubik font-bold'>{getWinner()} Won !</h1>
@@ -51,13 +51,13 @@ const WinnerModal = ({ completed, handleClose, wpm, errorCount, timeTaken }) => 
                         onClick={handleClose} className='ml-10 bg-purple-800 px-4 py-1 rounded-lg mt-8 w-32 text-white text-md font-rubik'>Close & play</button>
                 </div>
                 {getWinner() === 'You' &&
-                <Confetti
-                    width={window.innerWidth}
-                    height={window.innerHeight}
-                    numberOfPieces={400}
-                    recycle={false}
-                />
-               }
+                    <Confetti
+                        width={window.innerWidth}
+                        height={window.innerHeight}
+                        numberOfPieces={400}
+                        recycle={false}
+                    />
+                }
             </div>
         </>
     )

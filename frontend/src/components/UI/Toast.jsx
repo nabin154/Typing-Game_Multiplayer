@@ -6,17 +6,11 @@ import { useToast } from '../../Context/ToastProvider';
 const Toast = () => {
 
     const { show, type, handleClick, message, showToast, setShow, timer } = useToast();
-
-
     useEffect(() => {
         if (!show && message) {
             setShow(true);
         }
     }, [ message]);
-
-
-    
-
 
     return (
         <>

@@ -8,7 +8,7 @@ const RacingBox = ({ startTest, startTimer, completed, setCompleted }) => {
     const { seconds, setSeconds } = useTypingData();
     const { challengerData } = useUser();
 
-//Timer for the typing : time
+    //Timer for the typing : time
     useEffect(() => {
         if (seconds <= 0) {
             setCompleted(true);
@@ -26,28 +26,12 @@ const RacingBox = ({ startTest, startTimer, completed, setCompleted }) => {
     }, [startTest, startTimer, completed, seconds]);
 
 
-    // useEffect(() => {
-    //     if (seconds === 0) {
-    //         timerCallback();
-    //     }
-    // }, [seconds]);
-
-
-    // const timerCallback = () => {
-    //     setSeconds(120);
-    //     window.alert("Timer expired! .");
-
-    // };
-
-//formating the time to display
+    //formating the time to display
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
-
-
-
 
     return (
 
@@ -58,8 +42,8 @@ const RacingBox = ({ startTest, startTimer, completed, setCompleted }) => {
                 <div className=' h-[200px] w-[350px] max-w-96 mt-3 bg-rightGradientColor flex items-center flex-col rounded-xl '>
                     <RacerUser />
                     {challengerData && challengerData.user &&
-                    <RacerChallengerUser />
-}
+                        <RacerChallengerUser />
+                    }
                 </div>
             </div>
 

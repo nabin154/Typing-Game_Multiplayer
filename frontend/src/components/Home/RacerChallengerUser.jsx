@@ -3,7 +3,7 @@ import { useTypingData } from '../../Context/DataProvider';
 import { useUser } from '../../Context/UserProvider';
 
 const RacerChallengerUser = () => {
-    const { user , challengerData } = useUser();
+    const { challengerData } = useUser();
     const { challengerMargin } = useTypingData();
 
     return (

@@ -1,13 +1,13 @@
-import React from 'react'
-import Navbar from '../../components/navbar/Navbar'
+// import React from 'react'
+// import Navbar from '../../components/navbar/Navbar'
 
-const ChallengePage = () => {
-  return (
-    <div>
-        <Navbar/>
-     hehehehhe 
-    </div>
-  )
-}
+// const ChallengePage = () => {
+//   return (
+//     <div>
+//         <Navbar/>
 
-export default ChallengePage
+//     </div>
+//   )
+// }
+
+// export default ChallengePage

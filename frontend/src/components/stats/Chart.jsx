@@ -21,11 +21,11 @@ const Chart = () => {
                 setGraphData(data.data);
 
             } else {
-                showToast(response.data.message, 'error' ,5000);
+                showToast(response.data.message, 'error', 5000);
             }
 
         } catch (error) {
-            showToast(error.message,'error',5000);
+            showToast(error.message, 'error', 5000);
         }
     };
 

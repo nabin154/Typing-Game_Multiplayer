@@ -6,18 +6,18 @@ const userContext = createContext();
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState();
-    const [challengerData , setChallengerData] = useState({challenger : '', user:null , mode:'' , paragraph:null});
+    const [challengerData, setChallengerData] = useState({ challenger: '', user: null, mode: '', paragraph: null });
     const socket = useRef(null);
     const [onlineUsers, setOnlineUsers] = useState();
 
     useEffect(() => {
-        if(user){
-        socket.current = io(BACKEND_URL);
-        return () => {
-           
-            socket.current.disconnect();
-        };
-    }
+        if (user) {
+            socket.current = io(BACKEND_URL);
+            return () => {
+
+                socket.current.disconnect();
+            };
+        }
     }, [user]);
 
     return (
@@ -26,7 +26,7 @@ const UserProvider = ({ children }) => {
             setUser,
             onlineUsers,
             setOnlineUsers,
-            socket: socket.current ,
+            socket: socket.current,
             challengerData,
             setChallengerData,
         }}>

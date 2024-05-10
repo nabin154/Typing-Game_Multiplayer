@@ -19,7 +19,7 @@ const TypingTest = () => {
     const [typedText, setTypedText] = useState('');
     const [errorCount, setErrorCount] = useState(0);
     const [classType, setClassType] = useState('bright');
-    
+
     const [wpm, setWpm] = useState(0);
     const [timeTaken, setTimeTaken] = useState();
 
@@ -32,21 +32,18 @@ const TypingTest = () => {
         }
     }, [challengerData.mode, challengerData.paragraph]);
 
-//to get the paragraph
+    //to get the paragraph
     const getParagraph = () => {
         const paragraphsData = paragraphs[difficultyMode];
         const index = Math.floor(Math.random() * paragraphsData.length);
         return paragraphsData[index];
     };
 
-//to dynamically change the paragraph
+    //to dynamically change the paragraph
     useEffect(() => {
         setParagraph(getParagraph());
         setSeconds(timeForModes[difficultyMode]);
     }, [difficultyMode]);
-
-
-
 
     //CountDown Timer when start button is clicked
     useEffect(() => {
@@ -59,7 +56,8 @@ const TypingTest = () => {
         }
     }, [startTest, startTimer]);
 
-//to post the data in the database when completed
+
+    //to post the data in the database when completed
     const postStats = async () => {
         let data = {
             mode: difficultyMode,
@@ -78,24 +76,22 @@ const TypingTest = () => {
         }
     };
 
-
     //calculating the words per minutes
     const calculateWPM = () => {
-        if ((completed && seconds <= 0 ) || (completed && typedText.length === paragraph.length  )) {
-        const endTime = new Date();
-        const timeInSeconds = (endTime - startTestTime) / 1000;
-        const wordsTyped = typedText.split(' ').length;
-        const timeInMinutes = timeInSeconds / 60;
-        const wpmValue = Math.round(wordsTyped / timeInMinutes);
-        setWpm(wpmValue);
-        setTimeTaken(Number(timeInSeconds.toFixed(2)));
+        if ((completed && seconds <= 0) || (completed && typedText.length === paragraph.length)) {
+            const endTime = new Date();
+            const timeInSeconds = (endTime - startTestTime) / 1000;
+            const wordsTyped = typedText.split(' ').length;
+            const timeInMinutes = timeInSeconds / 60;
+            const wpmValue = Math.round(wordsTyped / timeInMinutes);
+            setWpm(wpmValue);
+            setTimeTaken(Number(timeInSeconds.toFixed(2)));
         }
-        else{
+        else {
             return;
         }
 
     };
-
 
     // after completion rendering
     useEffect(() => {
@@ -103,17 +99,18 @@ const TypingTest = () => {
             calculateWPM();
         }
         if (completed && challengerData && challengerData.user && wpm && timeTaken) {
-                const data = { wpm: wpm, timeTaken: timeTaken, errors: errorCount, id: challengerData.user._id }
-                socket.emit('completed', data);
+            const data = { wpm: wpm, timeTaken: timeTaken, errors: errorCount, id: challengerData.user._id }
+            socket.emit('completed', data);
         }
     }, [completed, challengerData, wpm, timeTaken]);
 
+
     //to post the data to the database conditionally
     useEffect(() => {
-        if ((completed && seconds <= 0 && wpm && timeTaken && !challengerData.user) || (completed && typedText.length === paragraph.length && wpm && timeTaken && !challengerData.user) ){
-                setTimeout(() => {
-                    postStats();
-                }, 1000);
+        if ((completed && seconds <= 0 && wpm && timeTaken && !challengerData.user) || (completed && typedText.length === paragraph.length && wpm && timeTaken && !challengerData.user)) {
+            setTimeout(() => {
+                postStats();
+            }, 1000);
         }
     }, [calculateWPM]);
 
@@ -197,7 +194,6 @@ const TypingTest = () => {
         }
     };
 
-
     // resetting everything to initial state
     const handleClose = () => {
         setCompleted(false);
@@ -214,7 +210,7 @@ const TypingTest = () => {
         setChallengerData({ challenger: '', user: '', mode: '', paragraph: null });
         setWinnerData({ wpm: 0, errors: null, timeTaken: null });
 
-    }
+    };
 
     return (
         <div className='grid grid-cols-1 md:grid-cols-2' onKeyDown={handleTyping} tabIndex={-1}>
@@ -243,7 +239,7 @@ const TypingTest = () => {
             </section>
             <section>
                 {completed && challengerData && challengerData.user ?
-                    <WinnerModal 
+                    <WinnerModal
                         completed={completed}
                         handleClose={handleClose}
                         wpm={wpm}
