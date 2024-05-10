@@ -4,16 +4,13 @@ const dotenv = require('dotenv').config();
 const colors = require('colors');
 const { PORT, REACT_APP_URL } = require("./utils/envData");
 const connectDB = require("./utils/dbSetup");
-const authRoutes = require("./routes/authRoutes");
-const statsRoutes = require("./routes/statsRoutes");
-const userRoutes = require("./routes/userRoutes");
 const { errorHandler, routeNotFound } = require("./middlewares/errorMiddleware");
+const { authRoutes, statsRoutes, userRoutes, googleAuthRoutes } = require("./routes");
 const cookieParser = require("cookie-parser");
 const http = require('http');
 const session = require("express-session");
 const passport = require("passport");
 const initializeSocket = require("./socket");
-const googleAuthRoutes = require("./routes/googleRoutes");
 
 
 const app = express();
@@ -35,10 +32,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 connectDB();
-
-app.get('/', (req, res) => {
-    res.send(" hello from the server.")
-});
 
 app.use(googleAuthRoutes);
 app.use('/api/auth', authRoutes);

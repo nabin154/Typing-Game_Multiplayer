@@ -1,8 +1,7 @@
-// auth/googleAuth.js
 const passport = require("passport");
 const User = require("../models/userModel");
-const { successResponse } = require("../utils/apiResponse");
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = require("../utils/envData");
+const { googleSuccessLogin } = require("../controllers/authController");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 
 const clientId = GOOGLE_CLIENT_ID;
@@ -51,29 +50,7 @@ router.get("/auth/google/callback", passport.authenticate("google", {
     failureRedirect: "http://localhost:5173/"
 }));
 
-router.get("/google-login-success", async (req, res) => {
-    const { _id, name, email, image } = req.user;
-    const user = await User.findById(_id);
-    const accessToken = await user.generateToken();
-    const refreshToken = await user.generateRefreshToken();
-
-    const cookieOptions = {
-        httpOnly: true,
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    };
-
-    res.cookie('accessToken', accessToken, cookieOptions);
-    res.cookie('refreshToken', refreshToken, cookieOptions);
-
-    const response = {
-        _id,
-        name,
-        email,
-        image,
-        token: accessToken,
-    };
-    res.status(200).json(successResponse('Logged in successfully!', response));
-});
+router.get("/google-login-success", googleSuccessLogin)
 
 router.get("/google-login-failure", (req, res) => {
     res.status(401).json({ message: "Google login failed." });

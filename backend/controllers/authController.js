@@ -132,7 +132,31 @@ const logoutUser = asyncHandler(async (req, res) => {
     }
 });
 
+const googleSuccessLogin = async (req, res) => {
+    const { _id, name, email, image } = req.user;
+    const user = await User.findById(_id);
+    const accessToken = await user.generateToken();
+    const refreshToken = await user.generateRefreshToken();
+
+    const cookieOptions = {
+        httpOnly: true,
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    };
+
+    res.cookie('accessToken', accessToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
+
+    const response = {
+        _id,
+        name,
+        email,
+        image,
+        token: accessToken,
+    };
+    res.status(200).json(successResponse('Logged in successfully!', response));
+};
 
 
 
-module.exports = { registerUser, loginUser, createNewToken , logoutUser }
+
+module.exports = { registerUser, loginUser, createNewToken, logoutUser, googleSuccessLogin }
