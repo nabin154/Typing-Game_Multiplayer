@@ -49,13 +49,12 @@ const loginUser = asyncHandler(async (req, res) => {
 
             const cookieOptions = {
                 httpOnly: true,
-                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), 
+                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
                 // sameSite: 'strict', 
             };
 
             res.cookie('accessToken', accessToken, cookieOptions);
             res.cookie('refreshToken', refreshToken, cookieOptions);
-
 
             const response = {
                 _id: user._id,
@@ -77,7 +76,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const createNewToken = asyncHandler(async (req, res) => {
     const { refreshToken } = req.cookies;
 
-    if (!refreshToken) {  
+    if (!refreshToken) {
         return res.status(403).json(failedResponse('RefreshToken is missing!'));
     }
 
@@ -108,29 +107,32 @@ const createNewToken = asyncHandler(async (req, res) => {
     }
 });
 
-
 const logoutUser = asyncHandler(async (req, res) => {
     try {
-        await User.findByIdAndUpdate(req.user._id,
-            {
-                $unset: {
-                    refreshToken: 1,
-                }
-            },
-            {
-                new: true
+        await User.findByIdAndUpdate(req.user._id, {
+            $unset: {
+                refreshToken: 1,
             }
+        }, {
+            new: true
+        });
 
-        );
+        req.session.destroy(err => {
+            if (err) {
+                return res.status(500).json({ message: 'Could not log out, please try again.' });
+            }
+            res.clearCookie('accessToken', { httpOnly: true });
+            res.clearCookie('refreshToken', { httpOnly: true });
+            res.clearCookie('connect.sid', { httpOnly: true });
 
-        res.clearCookie('accessToken', { httpOnly: true });
-        res.clearCookie('refreshToken', { httpOnly: true });
-
-        return res.status(200).json(successResponse("Logged Out successfully !"));
+            res.status(200).json(successResponse("Logged Out successfully!"));
+        });
     } catch (error) {
-        throw new Error("Internal server error !");
+        console.error('Logout error:', error);
+        res.status(500).json({ message: "Internal server error!" });
     }
 });
+
 
 const googleSuccessLogin = async (req, res) => {
     const { _id, name, email, image } = req.user;

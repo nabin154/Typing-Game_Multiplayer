@@ -27,8 +27,6 @@ function App() {
             </Routes>
             <Toast />
             <Notification />
-
-
           </BrowserRouter>
         </UserProvider>
       </ToastProvider>
