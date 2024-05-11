@@ -58,11 +58,13 @@ const Form = () => {
 
 
   const loginUser = async (data) => {
+    setLoading(true);
 
     try {
       const response = await login(data);
       if (response.status >= 200 && response.status < 300) {
         localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+        setLoading(false);
         navigate('/home');
         const message = response.data.message;
         showToast(message, 'success', 4000);
@@ -79,7 +81,9 @@ const Form = () => {
       let err = error.response.data.message;
       showToast(err, 'error', 5000);
     }
-  }
+    setLoading(false);
+
+  };
 
 
   const onSubmit = async (data, e) => {
