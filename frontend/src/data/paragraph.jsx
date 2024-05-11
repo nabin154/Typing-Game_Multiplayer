@@ -45,7 +45,7 @@ export const paragraphs = {
 
 
 export const timeForModes = {
-    easy: 120,
+    easy: 15,
     medium : 150,
     difficult : 150
 

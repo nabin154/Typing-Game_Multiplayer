@@ -39,7 +39,7 @@ const ChallengesModal = () => {
             {showChallengeModal && (
                 <div
                     ref={modalRef}
-                    className='absolute top-20 border-white border right-[34%] z-10 shadow bg-rightGradientColor rounded-2xl h-80 w-96 p-4 overflow-y-auto'
+                    className='absolute top-20 border-white border right-[1%] md:right-[34%] z-10 shadow bg-rightGradientColor rounded-2xl h-80 w-96 p-4 overflow-y-auto'
                 >
                     {onlineUsers.length > 0 ? (
                         <OnlineUserList />

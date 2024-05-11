@@ -12,7 +12,7 @@ import WinnerModal from '../Modal/WinnerModal';
 
 const TypingTest = () => {
     const { user, setOnlineUsers, challengerData, setChallengerData, socket } = useUser();
-    const { startTestTime, setStartTestTime, completed, setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode, setWinnerData } = useTypingData();
+    const { startTestTime, setStartTestTime, completed,setChallengerMargin, setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode, setWinnerData } = useTypingData();
     const { showToast } = useToast();
     const [startTest, setStartTest] = useState(false);
     const [startTimer, setStartTimer] = useState(4);
@@ -207,6 +207,7 @@ const TypingTest = () => {
         setMargin(0);
         setSeconds(timeForModes[difficultyMode]);
         setTimeTaken(null);
+        setChallengerMargin(0);
         setChallengerData({ challenger: '', user: '', mode: '', paragraph: null });
         setWinnerData({ wpm: 0, errors: null, timeTaken: null });
 
