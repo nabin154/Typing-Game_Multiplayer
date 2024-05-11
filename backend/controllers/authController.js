@@ -50,6 +50,8 @@ const loginUser = asyncHandler(async (req, res) => {
             const cookieOptions = {
                 httpOnly: true,
                 expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                secure: true,
+                sameSite: 'none',
                 // sameSite: 'strict', 
             };
 
@@ -96,6 +98,8 @@ const createNewToken = asyncHandler(async (req, res) => {
         const cookieOptions = {
             httpOnly: true,
             expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            secure: true,
+            sameSite: 'none',
             // sameSite: 'strict', 
         };
         res.cookie("accessToken", accessToken, cookieOptions);
@@ -143,6 +147,8 @@ const googleSuccessLogin = async (req, res) => {
     const cookieOptions = {
         httpOnly: true,
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        secure: true,
+        sameSite: 'none',
     };
 
     res.cookie('accessToken', accessToken, cookieOptions);

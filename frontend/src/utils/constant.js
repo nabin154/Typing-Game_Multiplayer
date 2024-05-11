@@ -1,1 +1,1 @@
-export const BACKEND_URL = 'http://localhost:5000'
+export const BACKEND_URL = 'https://typing-game-8c44.onrender.com'
