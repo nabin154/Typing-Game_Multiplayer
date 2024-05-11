@@ -90,7 +90,7 @@ const Form = () => {
   };
 
   const loginWithGoogle = async () => {
-      window.location.href = 'http://localhost:5000/auth/google/callback',"_self";
+    window.location.href = 'https://typing-game-8c44.onrender.com/auth/google/callback',"_self";
     };
 
   return (
