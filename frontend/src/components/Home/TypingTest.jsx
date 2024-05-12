@@ -78,7 +78,7 @@ const TypingTest = () => {
 
     //calculating the words per minutes
     const calculateWPM = () => {
-        if ((completed && seconds <= 0) || (completed && typedText.length === paragraph.length)) {
+        if ((completed && seconds <= 0) || (completed && typedText.length === paragraph.length) || challengerData.user) {
             const endTime = new Date();
             const timeInSeconds = (endTime - startTestTime) / 1000;
             const wordsTyped = typedText.split(' ').length;
