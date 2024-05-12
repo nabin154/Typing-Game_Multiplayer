@@ -6,9 +6,10 @@
 
 ![Screenshot 2024-05-11 200301](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/590d35c6-dc30-40a5-81f9-4ca7c7b12579)
 
-live demo available at :
+live demo available at : https://nabin-typing-game.vercel.app
+(since it is deployed in free tier, it may not work as expected due to limitations in free tier)
 
-full video demo : 
+ for full video demo : https://www.youtube.com/watch?v=3VAE2ywYZS8
 
 ## Key Features:
 
@@ -69,8 +70,25 @@ These are the things you need to do to install this project:
 4. Configure your mongoDB setup in `config.js`
 
  ##Extra Screenshots : 
+![Screenshot 2024-05-12 113158](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/0e665bd1-2a52-4e37-9dfd-33de0eb905cc)
 
-![Screenshot 2024-05-11 200316](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/8a0bd0cf-aca7-48a1-89ba-9ac3368b2646)
-![Screenshot 2024-05-11 201802](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/8eb54519-9989-4932-acf8-00a4ef07fadc)
-![Screenshot 2024-05-11 201820](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/26a8064b-5049-457f-acf1-02740839eea1)
-![Screenshot 2024-05-11 215311](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/8f1d5de6-c0d3-46a5-8e97-e3669ac1e1bd)
+
+![Screenshot 2024-05-12 113135](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/1d116f23-26ca-42bf-a703-1392df59e4f7)
+![Screenshot 2024-05-11 215311](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/02a93ea1-5cda-4470-a7c2-6eb1a98ccc8f)
+
+![Screenshot 2024-05-12 160134](https://github.com/nabin154/Typing-Game_Multiplayer/assets/82200770/4e4a6b64-a56b-46d7-b843-962aa5ce388e)
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
