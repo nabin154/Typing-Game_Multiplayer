@@ -3,7 +3,7 @@ const https = require('https');
 
 const backendUrl = "https://typing-game-8c44.onrender.com";
 
-const job = new cron.CronJob('*/1 * * * *', function () {
+const job = new cron.CronJob('*/14 * * * *', function () {
 
     console.log(`Restarting Server`);
 
