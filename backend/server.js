@@ -11,7 +11,9 @@ const http = require('http');
 const session = require("express-session");
 const passport = require("passport");
 const initializeSocket = require("./socket");
+const job = require('./cron.js').job
 
+job.start();
 
 const app = express();
 const server = http.createServer(app);
