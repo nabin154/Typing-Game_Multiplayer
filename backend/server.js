@@ -35,6 +35,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 connectDB();
 
+app.get("/", (req, res) => {
+    res.send("hello from server");
+});
+
 app.use(googleAuthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/stats', statsRoutes);
