@@ -13,6 +13,9 @@ const DataProvider = ({ children }) => {
   const [paragraph, setParagraph] = useState('');
   const [challengerMargin, setChallengerMargin] = useState();
   const [winnerData, setWinnerData] = useState({ wpm: 0, errors: null, timeTaken: null });
+  const [startTest, setStartTest] = useState(false);
+  const [typedText, setTypedText] = useState('');
+  const [errorCount, setErrorCount] = useState(0);
 
 
 
@@ -22,6 +25,10 @@ const DataProvider = ({ children }) => {
       testStarted,
       setTestStarted,
       startTestTime,
+      typedText,
+      setTypedText,
+      errorCount,
+      setErrorCount,
       setStartTestTime,
       margin,
       setMargin,
@@ -39,6 +46,8 @@ const DataProvider = ({ children }) => {
       setWinnerData,
       completed,
       setCompleted,
+      startTest,
+      setStartTest
     }}>
       {children}
     </typingContext.Provider>

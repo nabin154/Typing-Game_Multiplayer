@@ -5,7 +5,7 @@ import { useTypingData } from '../../Context/DataProvider';
 
 const Notification = () => {
     const navigate = useNavigate();
-    const { setTestStarted } = useTypingData();
+    const { setTestStarted ,setStartTest,setTypedText,setErrorCount} = useTypingData();
     const { challengerData, setChallengerData, socket, user } = useUser();
     const [showModal, setShowModal] = useState(false);
 
@@ -21,6 +21,9 @@ const Notification = () => {
         setShowModal(false);
         navigate('/home');
         setTestStarted(true);
+        setStartTest(false);
+        setTypedText('');
+        setErrorCount(0);
 
     }
     const handleReject = () => {
