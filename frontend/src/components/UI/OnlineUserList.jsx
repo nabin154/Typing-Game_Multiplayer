@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../Context/UserProvider';
 import { useNavigate } from 'react-router-dom';
-import { useTypingData } from '../../Context/DataProvider';
+
 
 const OnlineUserList = () => {
   const navigate = useNavigate();
   const { onlineUsers, socket, user, setChallengerData } = useUser();
-  const { setTestStarted } = useTypingData();
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
@@ -23,9 +22,16 @@ const OnlineUserList = () => {
     const data = { id: friend._id, user: user };
     socket.emit("challenge", data);
     setChallengerData(prev => ({ ...prev, challenger: user._id }));
-    setIsDisabled(true);
   }
 
+  const disableButton = (data) => {
+    if (data.status === 'playing') {
+      return true
+    }
+    else {
+      return false;
+    }
+  }
   return (
     <div>
       {onlineUsers && onlineUsers.map(([id, userData]) => (
@@ -33,10 +39,18 @@ const OnlineUserList = () => {
           <img src={userData.image} alt="" className='h-14 w-14 object-cover' style={{ borderRadius: '50%' }} />
           <div>
             <h2 className='text-sm'>{userData.name}</h2>
-            <h2 className='text-green-500 text-sm'>Online</h2>
+            <div className='flex items-center gap-4'>
+              <h2 className='text-green-500 text-sm'>Online</h2>
+              <h3 className='text-red-300 text-sm'>{userData.status}</h3>
+            </div>
           </div>
-          <button disabled={isDisabled}
-            className='px-3 py-1 text-sm bg-purple-500 rounded-lg' onClick={() => handleChallenge(userData)}>Challenge</button>
+          <button
+            disabled={disableButton(userData)}
+            className={`px-3 py-1 text-sm bg-purple-500 rounded-lg ${disableButton(userData) ? 'cursor-not-allowed' : ''}`}
+            onClick={() => handleChallenge(userData)}
+          >
+            Challenge
+          </button>
         </div>
       ))}
 

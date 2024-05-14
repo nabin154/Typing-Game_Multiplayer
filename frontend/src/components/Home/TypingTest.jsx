@@ -12,14 +12,15 @@ import WinnerModal from '../Modal/WinnerModal';
 
 const TypingTest = () => {
     const { user, setOnlineUsers, challengerData, setChallengerData, socket } = useUser();
-    const { startTest, setStartTest, errorCount, setErrorCount, typedText, setTypedText, startTestTime, setStartTestTime, completed,setChallengerMargin, setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode, setWinnerData } = useTypingData();
+    const {startTestTime, setStartTestTime, completed,setChallengerMargin, setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode, setWinnerData } = useTypingData();
     const { showToast } = useToast();
     const [startTimer, setStartTimer] = useState(4);
     const [classType, setClassType] = useState('bright');
-
     const [wpm, setWpm] = useState(0);
+    const [startTest, setStartTest] = useState(false);
     const [timeTaken, setTimeTaken] = useState();
-
+    const [typedText, setTypedText] = useState('');
+    const [errorCount, setErrorCount] = useState(0);
     //to start the game when opponent accepts and accepted event is received
     useEffect(() => {
         if (challengerData.mode && challengerData.paragraph) {
@@ -175,6 +176,7 @@ const TypingTest = () => {
             };
             socket.emit("game started", data);
         }
+        if (!startTest) socket.emit("update status", { userId: user._id, status: "playing" });
         setStartTest(!startTest);
         setCompleted(false);
         if (startTest) {
@@ -193,6 +195,7 @@ const TypingTest = () => {
 
     // resetting everything to initial state
     const handleClose = () => {
+        socket.emit("update status", { userId: user._id, status: "ready" });
         setCompleted(false);
         setStartTest(false);
         setClassType('bright');

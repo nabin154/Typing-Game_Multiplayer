@@ -13,9 +13,7 @@ const DataProvider = ({ children }) => {
   const [paragraph, setParagraph] = useState('');
   const [challengerMargin, setChallengerMargin] = useState();
   const [winnerData, setWinnerData] = useState({ wpm: 0, errors: null, timeTaken: null });
-  const [startTest, setStartTest] = useState(false);
-  const [typedText, setTypedText] = useState('');
-  const [errorCount, setErrorCount] = useState(0);
+  
 
 
 
