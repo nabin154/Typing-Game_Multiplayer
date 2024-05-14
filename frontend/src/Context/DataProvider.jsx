@@ -23,10 +23,6 @@ const DataProvider = ({ children }) => {
       testStarted,
       setTestStarted,
       startTestTime,
-      typedText,
-      setTypedText,
-      errorCount,
-      setErrorCount,
       setStartTestTime,
       margin,
       setMargin,
@@ -44,8 +40,7 @@ const DataProvider = ({ children }) => {
       setWinnerData,
       completed,
       setCompleted,
-      startTest,
-      setStartTest
+     
     }}>
       {children}
     </typingContext.Provider>
