@@ -1,7 +1,7 @@
 const socketIo = require('socket.io');
 const { REACT_APP_URL } = require('./utils/envData');
 
-const initializeSocket = (server) =>{
+const initializeSocket = (server) => {
 
     const onlineUsers = new Map();
     const io = socketIo(server, {
@@ -47,6 +47,21 @@ const initializeSocket = (server) =>{
             console.log('completed')
             const { id } = data;
             socket.to(id).emit('completed game', data);
+        });
+
+        socket.on("update status", ({ userId, status }) => {
+
+            const userSocketId = Array.from(onlineUsers.entries()).find(
+                ([_, user]) => user._id === userId
+            )?.[0];
+            console.log(userSocketId)
+
+            if (userSocketId) {
+                const user = onlineUsers.get(userSocketId);
+                onlineUsers.set(userSocketId, { ...user, status });
+                console.log(onlineUsers);
+                io.emit("online users", Array.from(onlineUsers));
+            }
         });
 
 
