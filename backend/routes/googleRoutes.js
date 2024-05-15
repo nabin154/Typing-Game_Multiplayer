@@ -1,6 +1,6 @@
 const passport = require("passport");
 const User = require("../models/userModel");
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = require("../utils/envData");
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REACT_APP_URL } = require("../utils/envData");
 const { googleSuccessLogin } = require("../controllers/authController");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 
@@ -46,8 +46,8 @@ const router = require("express").Router();
 router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get("/auth/google/callback", passport.authenticate("google", {
-    successRedirect: "http://localhost:5173/googlelogin",
-    failureRedirect: "http://localhost:5173/"
+    successRedirect: `${REACT_APP_URL}/googlelogin`,
+    failureRedirect: `${REACT_APP_URL}/`
 }));
 
 router.get("/google-login-success", googleSuccessLogin)

@@ -2,36 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '../../Context/UserProvider';
 import { useNavigate } from 'react-router-dom';
 
-
 const OnlineUserList = () => {
   const navigate = useNavigate();
   const { onlineUsers, socket, user, setChallengerData } = useUser();
-  const [isDisabled, setIsDisabled] = useState(false);
-
-  useEffect(() => {
-
-    if (isDisabled) {
-      setTimeout(() => {
-        setIsDisabled(false);
-      }, 5000);
-      return () => clearTimeout()
-    }
-  }, [isDisabled])
+  const [disabledButtons, setDisabledButtons] = useState([]);
 
   const handleChallenge = (friend) => {
+    if (disabledButtons.includes(friend._id)) {
+      return;
+    }
+
+    setDisabledButtons(prevDisabledButtons => [...prevDisabledButtons, friend._id]);
+
     const data = { id: friend._id, user: user };
     socket.emit("challenge", data);
     setChallengerData(prev => ({ ...prev, challenger: user._id }));
   }
 
-  const disableButton = (data) => {
-    if (data.status === 'playing') {
-      return true
-    }
-    else {
-      return false;
-    }
+  const disableButton = (userId) => {
+    return disabledButtons.includes(userId);
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDisabledButtons([]);
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [disabledButtons]);
+
   return (
     <div>
       {onlineUsers && onlineUsers.map(([id, userData]) => (
@@ -45,15 +44,14 @@ const OnlineUserList = () => {
             </div>
           </div>
           <button
-            disabled={disableButton(userData)}
-            className={`px-3 py-1 text-sm bg-purple-500 rounded-lg ${disableButton(userData) ? 'cursor-not-allowed' : ''}`}
+            disabled={disableButton(userData._id)}
+            className={`px-3 py-1 text-sm bg-purple-500 rounded-lg ${disableButton(userData._id) ? 'cursor-not-allowed' : ''}`}
             onClick={() => handleChallenge(userData)}
           >
             Challenge
           </button>
         </div>
       ))}
-
     </div>
   );
 }
