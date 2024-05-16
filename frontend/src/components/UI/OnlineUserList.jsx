@@ -8,7 +8,7 @@ const OnlineUserList = () => {
   const [disabledButtons, setDisabledButtons] = useState([]);
 
   const handleChallenge = (friend) => {
-    if (disabledButtons.includes(friend._id)) {
+    if (disabledButtons.includes(friend._id) || friend.status === 'playing') {
       return;
     }
 
@@ -19,8 +19,8 @@ const OnlineUserList = () => {
     setChallengerData(prev => ({ ...prev, challenger: user._id }));
   }
 
-  const disableButton = (userId) => {
-    return disabledButtons.includes(userId);
+  const disableButton = (userId, status) => {
+    return disabledButtons.includes(userId) || status === 'playing';
   }
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const OnlineUserList = () => {
   return (
     <div>
       {onlineUsers && onlineUsers.map(([id, userData]) => (
-        <div key={userData._id} className='w-full h-16  flex items-center mt-3 justify-around shadow-sm shadow-white custom-table-gradient rounded-xl'>
+        <div key={userData._id} className='w-full h-16 flex items-center mt-3 justify-around shadow-sm shadow-white custom-table-gradient rounded-xl'>
           <img src={userData.image} alt="" className='h-14 w-14 object-cover' style={{ borderRadius: '50%' }} />
           <div>
             <h2 className='text-sm'>{userData.name}</h2>
@@ -44,8 +44,8 @@ const OnlineUserList = () => {
             </div>
           </div>
           <button
-            disabled={disableButton(userData._id)}
-            className={`px-3 py-1 text-sm bg-purple-500 rounded-lg ${disableButton(userData._id) ? 'cursor-not-allowed' : ''}`}
+            disabled={disableButton(userData._id, userData.status)}
+            className={`px-3 py-1 text-sm bg-purple-500 rounded-lg ${disableButton(userData._id, userData.status) ? 'cursor-not-allowed' : ''}`}
             onClick={() => handleChallenge(userData)}
           >
             Challenge
