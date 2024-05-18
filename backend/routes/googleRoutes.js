@@ -50,10 +50,17 @@ router.get("/auth/google/callback", passport.authenticate("google", {
     failureRedirect: `${REACT_APP_URL}/`
 }));
 
-router.get("/google-login-success", googleSuccessLogin)
+router.get("/google-login-success", (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", REACT_APP_URL);
+    res.header("Access-Control-Allow-Credentials", "true");
+    googleSuccessLogin(req, res, next);
+});
 
 router.get("/google-login-failure", (req, res) => {
+    res.header("Access-Control-Allow-Origin", REACT_APP_URL);
+    res.header("Access-Control-Allow-Credentials", "true");
     res.status(401).json({ message: "Google login failed." });
 });
+
 
 module.exports = router;
