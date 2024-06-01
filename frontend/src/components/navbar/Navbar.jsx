@@ -18,7 +18,7 @@ const Navbar = () => {
     };
 
     const handleLogout = async () => {
-        const response = await logout();
+        const response = await logout(user._id);
         if (response) {
             localStorage.removeItem("userInfo");
             setWidth(0);

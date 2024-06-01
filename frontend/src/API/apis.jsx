@@ -21,7 +21,7 @@ export const login = async (data) => {
 };
 export const logout = async (data) => {
     try {
-        const response = await axiosInstance.post('/api/auth/logout');
+        const response = await axiosInstance.post('/api/auth/logout',data);
         return response;
     } catch (error) {
         throw error;
