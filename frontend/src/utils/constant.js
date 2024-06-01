@@ -1,1 +1,1 @@
-export const BACKEND_URL = 'https://typing-game-8c44.onrender.com'
+export const BACKEND_URL = 'https://typing-backend-twca.onrender.com'

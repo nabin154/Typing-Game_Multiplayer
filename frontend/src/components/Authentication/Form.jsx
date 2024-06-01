@@ -94,7 +94,7 @@ const Form = () => {
   };
 
   const loginWithGoogle = async () => {
-    window.location.href = 'https://typing-game-8c44.onrender.com/auth/google/callback',"_self";
+    window.location.href = 'https://typing-backend-twca.onrender.com/auth/google/callback',"_self";
     };
 
   return (
