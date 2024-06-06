@@ -112,8 +112,9 @@ const createNewToken = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
+    const { id } = req.body;
     try {
-        await User.findByIdAndUpdate(req.user._id, {
+        await User.findByIdAndUpdate(id, {
             $unset: {
                 refreshToken: 1,
             }
