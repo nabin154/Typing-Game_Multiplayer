@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { AiFillSound } from "react-icons/ai";
+import { IoIosVolumeOff } from "react-icons/io";
 import RacingBox from './RacingBox';
 import { useTypingData } from '../../Context/DataProvider';
 import { useToast } from '../../Context/ToastProvider';
@@ -14,6 +16,8 @@ const TypingTest = () => {
     const { user, setOnlineUsers, challengerData, setChallengerData, socket } = useUser();
     const {startTestTime, setStartTestTime, completed,setChallengerMargin, setCompleted, margin, setMargin, paragraph, setParagraph, seconds, setSeconds, setDifficultyMode, difficultyMode, setWinnerData } = useTypingData();
     const { showToast } = useToast();
+    const errorSoundRef = useRef(null);
+    const completedSoundRef = useRef(null);
     const [startTimer, setStartTimer] = useState(4);
     const [classType, setClassType] = useState('bright');
     const [wpm, setWpm] = useState(0);
@@ -21,6 +25,8 @@ const TypingTest = () => {
     const [timeTaken, setTimeTaken] = useState();
     const [typedText, setTypedText] = useState('');
     const [errorCount, setErrorCount] = useState(0);
+    const [soundOff , setSoundOff] = useState(false);
+    let paragraphLength = paragraph.length - 1;
     //to start the game when opponent accepts and accepted event is received
     useEffect(() => {
         if (challengerData.mode && challengerData.paragraph) {
@@ -76,7 +82,7 @@ const TypingTest = () => {
 
     //calculating the words per minutes
     const calculateWPM = () => {
-        if ((completed && seconds <= 0) || (completed && typedText.length === paragraph.length) || challengerData.user) {
+        if ((completed && seconds <= 0) || (completed && typedText.length === paragraphLength) || challengerData.user) {
             const endTime = new Date();
             const timeInSeconds = (endTime - startTestTime) / 1000;
             const wordsTyped = typedText.split(' ').length;
@@ -95,6 +101,7 @@ const TypingTest = () => {
     useEffect(() => {
         if (completed && !wpm && !timeTaken) {
             calculateWPM();
+
         }
         if (completed && challengerData && challengerData.user && wpm && timeTaken) {
             const data = { wpm: wpm, timeTaken: timeTaken, errors: errorCount, id: challengerData.user._id }
@@ -106,6 +113,9 @@ const TypingTest = () => {
     //to post the data to the database conditionally
     useEffect(() => {
         if ((completed && seconds <= 0 && wpm && timeTaken && !challengerData.user) || (completed && typedText.length === paragraph.length && wpm && timeTaken && !challengerData.user)) {
+            if (completedSoundRef.current && !soundOff) {
+                completedSoundRef.current.play();
+            }
             setTimeout(() => {
                 postStats();
             }, 1000);
@@ -116,7 +126,7 @@ const TypingTest = () => {
     //main function for typing test
     const handleTyping = (event) => {
         if (!startTest || startTimer >= 1 || completed) return;
-        if (typedText.length === paragraph.length - 1) setCompleted(true);
+
         const typedChar = event.key;
         const currentCharIndex = typedText.length;
         const currentChar = paragraph[currentCharIndex];
@@ -135,7 +145,13 @@ const TypingTest = () => {
         } else {
             setErrorCount(errorCount + 1);
             setClassType('incorrect');
+            // Play error sound
+            if (errorSoundRef.current && !soundOff) {
+                errorSoundRef.current.play();
+            }
         }
+        if (typedText.length === paragraphLength) setCompleted(true);
+
 
         // To make the racer user to move in racing box
         let length = typedText.split(' ').length;
@@ -213,6 +229,10 @@ const TypingTest = () => {
 
     };
 
+    const handleSoundButton = ()=>{
+        setSoundOff(!soundOff);
+    }
+
     return (
         <div className='grid grid-cols-1 md:grid-cols-2' onKeyDown={handleTyping} tabIndex={-1}>
             <section>
@@ -224,11 +244,14 @@ const TypingTest = () => {
                     <button
                         className='mt-10 px-6 py-2 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-md hover:bg-purple-500'
                         onClick={handleStart}>{!startTest ? 'Start Now' : 'Retry'}</button>
+                      
                 </div>
                 <div className='flex gap-6 px-14 items-center'>
                     <h3 className='text-2xl font-rubik font-semibold text-red-600'>Errors : {errorCount}</h3>
                     <h3 className='text-2xl font-rubik font-semibold text-white'>Wpm : <span className='text-green-500'>
                         {wpm}</span> </h3>
+                         <div className='
+                       text-2xl font-rubik font-semibold text-white cursor-pointer' onClick={handleSoundButton}>{!soundOff?<AiFillSound />:<IoIosVolumeOff/>}</div> 
                 </div>
             </section>
             <section className='h-full w-full hidden md:block'>
@@ -254,6 +277,8 @@ const TypingTest = () => {
                         errorCount={errorCount} />
                 }
             </section>
+            <audio ref={errorSoundRef} src="/error.mp3" />
+            <audio ref={completedSoundRef} src="/completed.mp3" />
         </div>
     );
 };
