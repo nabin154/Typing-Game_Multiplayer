@@ -69,7 +69,7 @@ const {user} = useUser();
                     <StatsTable />
                 )}
             <div>
-                <p className='font-bold text-xl mt-6 text-white'>Average Speed : <span className='text-green-400 ml-2'> {user ? user.avgSpeed.toFixed(2) : 0} wpm</span></p>
+                <p className='font-bold text-xl mt-6 text-white'>Average Speed : <span className='text-green-400 ml-2'> {user ? user.avgSpeed?.toFixed(2) : 0} wpm</span></p>
                 <button
                     onClick={handleClick}
                     className='mt-10 ml-20 mb-3 px-4 py-2 font-rubik font-semibold flex items-center text-white bg-purple-800 rounded-lg border-none outline-none text-sm hover:bg-purple-500'
