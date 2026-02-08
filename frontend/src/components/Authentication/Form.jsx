@@ -141,7 +141,7 @@ const Form = () => {
               </label>
               <input
                 {...register("password", {
-                  required: "password is required",
+                  required: "Password is required",
                   pattern: {
                     value:
                       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
